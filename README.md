@@ -5,6 +5,7 @@ eggjs + vuejs project
 ### Frontend DEV
 
 ```bash
+$ cd /rootDir/project-frontend
 $ npm i
 $ npm run dev
 $ open http://localhost:8080/
@@ -13,6 +14,7 @@ $ open http://localhost:8080/
 ### Backend DEV
 
 ```bash
+$ cd /rootDir/project-backend
 $ npm i
 $ npm run dev
 $ open http://localhost:7001/
