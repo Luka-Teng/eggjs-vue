@@ -1,0 +1,8 @@
+{
+  "name": "user",
+  "title": "luka best",
+  "author": "Luka",
+  "entry": "main.js",
+  "template": "index.jade",
+  "filename": "user/index.html"
+}
