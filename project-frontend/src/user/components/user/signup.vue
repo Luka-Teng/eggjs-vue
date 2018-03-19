@@ -11,7 +11,10 @@
       密码
       input(id="password" v-model="password")
     div
-      a(id="submit" @click="submit") 提交
+      a(id="submit" @click="submit_login") 提交
+      a(id="submit" @click="submit_logout") 注销
+      p {{csrf_token}}
+      p {{user_key}}
 </template>
 
 <script>
@@ -29,13 +32,28 @@ export default {
   },
   computed: {
     ...mapGetters({
-      csrf_token: 'csrf_token'
+      csrf_token: 'csrf_token',
+      user_key: 'user_key'
     })
   },
   methods: {
     ...mapActions({
-      signup: 'signup'
+      signup: 'signup',
+      setUserKey: 'setUserKey',
+      login: 'login',
+      logout: 'logout'
     }),
+    submit_login () {
+      this.login({
+        email: '123@qq.com',
+        password: '1234dd'
+      }).then((data) => {
+        data ? '' : alert('login successfully')
+      })
+    },
+    submit_logout () {
+      this.logout()
+    },
     // 注册表格的提交
     submit () {
       if (this.csrf_token) {
@@ -45,13 +63,7 @@ export default {
           email: this.email,
           password: this.password
         }
-        this.signup(payload).then((data) => {
-          if (data) {
-            // 显示成功
-          } else {
-            // 显示失败
-          }
-        })
+        this.signup(payload)
       } else {
         // csrf没获取到，建议刷新页面
         alert('csrf没获取到，建议刷新页面')

@@ -4,18 +4,14 @@ const assert = require('assert')
 module.exports = app => {
   app.passport.verify(async (ctx, user) => {
     // 检查用户
-    assert(user.provider, 'user.provider should exists');
-    try {
-      let _user = await ctx.model.User.findOne({
-        where: {
-          name: user.email,
-          password: user.password
-        }
-      })
-      return _user
-    } catch (e) {
-      console.log(e)
-    }
+    assert(user.provider, 'user.provider should exists')
+    let _user = await ctx.model.User.findOne({
+      where: {
+        email: user.username,
+        password: user.password
+      }
+    })
+    return _user
   });
 
   // 将用户信息序列化后存进 session 里面，一般需要精简，只保存个别字段

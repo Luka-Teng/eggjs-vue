@@ -23,7 +23,7 @@ module.exports = appInfo => {
   config.passportLocal = {
     usernameField: 'email',
     passwordField: 'password'
-  };
+  }
 
   //开启csrf，跨域白名单
   exports.security = {

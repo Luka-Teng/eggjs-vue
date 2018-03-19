@@ -1,14 +1,20 @@
-// 所需要用到的api
+// 所需要用到的api，后期可以分离
 const server_host = 'http://localhost:7001'
 const apis = {
   'user_signup': server_host + '/signup',
-  'user_csrf_token': server_host + '/csrftoken'
+  'user_csrf_token': server_host + '/csrftoken',
+  'user_key': server_host + '/egg_sess',
+  'user_login': server_host + '/login/local',
+  'user_logout': server_host + '/logout'
 }
 
 // 实现state的数据
 const state = {
+  // 用来判断用户是否已经登录
   user_key: null,
+  // 用户的基本信息
   user_basic_info: null,
+  // 由于跨域，需要存储csrftoken的存储
   csrf_token: null
 }
 
@@ -48,17 +54,71 @@ const actions = {
         method: 'get',
         withCredentials: true
       })
-      const _payload = {
-        csrf_token: result.data.data
+      // msg字段判断是否获取成功
+      if (result.data.msg === 'success') {
+        const _payload = {
+          csrf_token: result.data.data
+        }
+        // 成功后resolve csrftoken
+        context.commit('setCsrfToken', _payload)
+        console.log('set csrf toke successfully')
+        return true
+      } else {
+        console.log('failed to set csrf toke')
+        return false
       }
-      context.commit('setCsrfToken', _payload)
-      // 成功后resolve csrftoken
-      console.log('get csrf toke successfully')
-      return result.data.data
     } catch (e) {
       console.log(e)
-      console.log('can not get csrf toke')
-      // 失败时返回resolve false
+      return false
+    }
+  },
+
+  // 获取user_key的action
+  async setUserKey (context, payload) {
+    try {
+      const result = await axios({
+        url: apis.user_key,
+        method: 'get',
+        withCredentials: true
+      })
+      // msg字段判断是否获取成功
+      if (result.data.msg === 'success') {
+        const _payload = {
+          user_key: result.data.data
+        }
+        // 成功后resolve csrftoken
+        context.commit('setUserKey', _payload)
+        console.log('set user key successfully')
+        return true
+      } else {
+        console.log('failed to set user key')
+        return false
+      }
+    } catch (e) {
+      console.log(e)
+      return false
+    }
+  },
+
+  // 用户登录的action
+  async login (context, payload) {
+    try {
+      const result = await axios({
+        url: apis.user_login,
+        method: 'post',
+        data: payload,
+        withCredentials: true,
+        headers: {'x-csrf-token': context.getters.csrf_token}
+      })
+      if (result.data.msg === 'success') {
+        // 登录成功需要更新用户信息
+        context.commit('setUserBasicInfo', result.data.data)
+        context.dispatch('setUserKey')
+        console.log('login successfully')
+      }
+      return true
+    } catch (e) {
+      console.log(e)
       return false
     }
   },
@@ -69,18 +129,42 @@ const actions = {
       const result = await axios({
         url: apis.user_signup,
         method: 'post',
-        data: {
-          name: payload.name,
-          age: payload.age,
-          email: payload.email,
-          password: payload.password
-        },
+        data: payload,
         withCredentials: true,
         headers: {'x-csrf-token': context.getters.csrf_token}
       })
-      console.log('signup successfully')
-      // todo list 存储用户的信息
-      return result.data.data
+      // 判断是否注册成功
+      if (result.data.msg === 'success') {
+        // 登录成功需要更新用户信息
+        context.commit('setUserBasicInfo', result.data.data)
+        context.dispatch('setUserKey')
+        console.log('signup successfully')
+        return true
+      } else {
+        console.log('failed to signup')
+        return false
+      }
+    } catch (e) {
+      console.log(e)
+      return false
+    }
+  },
+
+  // 用户注销
+  async logout (context) {
+    try {
+      const result = await axios({
+        url: apis.user_logout,
+        method: 'get',
+        withCredentials: true
+      })
+      if (result.data.msg === 'success') {
+        // 登录成功需要更新用户信息
+        context.commit('setUserBasicInfo', {user_basic_info: null})
+        context.commit('setUserKey', {user_key: null})
+        console.log('logout successfully')
+      }
+      return true
     } catch (e) {
       console.log(e)
       return false

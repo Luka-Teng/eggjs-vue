@@ -3,26 +3,8 @@
 const Controller = require('egg').Controller
 
 class SessionController extends Controller {
-  //message if login success
-  async loginSuccess() {
-    const {ctx} = this
-    ctx.body = {
-      msg: 'success'
-    }
-    ctx.status = 200
-  }
-
-  //message if login failed
-  async loginFailed() {
-    const {ctx} = this
-    ctx.body = {
-      msg: 'failed'
-    }
-    ctx.status = 500
-  }
-
-  //logout
-  async logout() {
+  // logout
+  async logout () {
     const {ctx} = this
     ctx.logout()
     ctx.body = {
@@ -31,25 +13,41 @@ class SessionController extends Controller {
     ctx.status = 200
   }
 
-  //signup
-  async signup() {
+  // signup
+  async signup () {
     const {ctx} = this
-    //注册字段的验证
+    // 注册字段的验证
     const rule = {
       name: 'string',
       age: 'int',
       email: 'email',
       password: 'string'
     }
-    ctx.validate(rule)
-    ctx.body = {
-      msg: 'success',
-      sm: ctx.get('x-csrf-token')
+    // 数据库操作
+    try {
+      ctx.validate(rule)
+      const data = {
+        name: ctx.request.body.name,
+        age: ctx.request.body.age,
+        email: ctx.request.body.email,
+        password: ctx.request.body.password
+      }
+      let user = (await ctx.model.User.create(data)).dataValues
+      ctx.login(user)
+      ctx.body = {
+        msg: 'success',
+        data: user
+      }
+    } catch (e) {
+      ctx.body = {
+        msg: 'failed',
+        data: e
+      }
     }
   }
 
-  //get csrf csrf_token
-  async csrfToken() {
+  // get csrf_token
+  async csrfToken () {
     const {ctx} = this
     const csrf_token = ctx.cookies.get('csrfToken', {
       signed: false
@@ -58,6 +56,26 @@ class SessionController extends Controller {
       ctx.body = {
         msg: 'success',
         data: csrf_token
+      }
+    } else {
+      ctx.body = {
+        msg: 'failed',
+        data: null
+      }
+    }
+  }
+
+  //get egg_sess
+  async eggSess () {
+    const {ctx} = this
+    const egg_sess = ctx.cookies.get('EGG_SESS', {
+      signed: false,
+      httpOnly: true
+    })
+    if (egg_sess) {
+      ctx.body = {
+        msg: 'success',
+        data: egg_sess
       }
     } else {
       ctx.body = {

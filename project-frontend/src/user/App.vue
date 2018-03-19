@@ -6,9 +6,6 @@
 </template>
 
 <script>
-// 全局样式
-import './stylus/general.styl'
-
 export default {
 
 }

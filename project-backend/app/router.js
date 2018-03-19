@@ -12,8 +12,8 @@ module.exports = app => {
   const auth = app.middleware.auth()
   //本地登录策略
   const local = app.passport.authenticate('local',{
-        successRedirect:'/loginSuccess',
-        failureRedirect: '/loginFailed'
+        successRedirect:false,
+        failureRedirect: false
   })
 
   //首页路由
@@ -21,9 +21,12 @@ module.exports = app => {
 
   //登录路由
   //邮箱密码验证
-  router.get('/loginSuccess', controller.session.loginSuccess)
-  router.get('/loginFailed', controller.session.loginFailed)
-  router.post('/login/local', local)
+  router.post('/login/local', local, (ctx) => {
+    ctx.body = {
+      msg: 'success',
+      data: ctx.user.dataValues
+    }
+  })
 
   //注销路由
   router.get('/logout', controller.session.logout)
@@ -33,4 +36,7 @@ module.exports = app => {
 
   //获取csrftoken
   router.get('/csrftoken', controller.session.csrfToken)
+
+  //获取登录信息的session
+  router.get('/egg_sess', controller.session.eggSess)
 };

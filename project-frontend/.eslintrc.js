@@ -21,6 +21,7 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
+    'no-unused-expressions': 'off',
     'camelcase':'off',
     // allow to use undefined var
     'no-undef': 'off',

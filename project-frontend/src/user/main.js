@@ -6,6 +6,9 @@ import store from './store'
 import router from './router'
 import {mapGetters, mapActions} from 'vuex'
 
+// 全局样式
+import './stylus/general.styl'
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -23,6 +26,7 @@ new Vue({
   methods: {
     ...mapActions({
       setCsrfToken: 'setCsrfToken',
+      setUserKey: 'setUserKey',
       signup: 'signup'
     })
   },
@@ -30,7 +34,10 @@ new Vue({
     // 初始化操作
     // 获取csrf_token
     this.setCsrfToken().then((data) => {
-      console.log(data)
+      // 如果没有csrftoken则刷新页面
+      data ? '' : location.reload()
     })
+    // 获取user_key,如获取成功，则表示登录成功
+    this.setUserKey()
   }
 })
