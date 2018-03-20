@@ -42,7 +42,7 @@ new Vue({
     // 获取csrf_token
     this.setCsrfToken().then((data) => {
       // 如果没有csrftoken则刷新页面
-      data ? '' : location.reload()
+      data.status === 'success' ? '' : location.reload()
     })
   }
 })

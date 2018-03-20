@@ -8,7 +8,7 @@ class SessionController extends Controller {
     const {ctx} = this
     ctx.logout()
     ctx.body = {
-      msg: 'success'
+      status: 'success'
     }
     ctx.status = 200
   }
@@ -35,13 +35,13 @@ class SessionController extends Controller {
       let user = (await ctx.model.User.create(data)).dataValues
       ctx.login(user)
       ctx.body = {
-        msg: 'success',
-        data: user
+        status: 'success',
+        msg: user
       }
     } catch (e) {
       ctx.body = {
-        msg: 'failed',
-        data: e
+        status: 'failed',
+        msg: e
       }
     }
   }
@@ -54,13 +54,13 @@ class SessionController extends Controller {
     })
     if (csrf_token) {
       ctx.body = {
-        msg: 'success',
-        data: csrf_token
+        status: 'success',
+        msg: csrf_token
       }
     } else {
       ctx.body = {
-        msg: 'failed',
-        data: null
+        status: 'failed',
+        msg: null
       }
     }
   }

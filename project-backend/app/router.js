@@ -23,8 +23,8 @@ module.exports = app => {
   //邮箱密码验证
   router.post('/login/local', local, (ctx) => {
     ctx.body = {
-      msg: 'success',
-      data: ctx.user.dataValues
+      status: 'success',
+      msg: ctx.user.dataValues
     }
   })
 
