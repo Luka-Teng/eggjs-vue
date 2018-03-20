@@ -2,12 +2,20 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import store from './store'
-import router from './router'
+import store from '@/store'
+import router from '@/router'
 import {mapGetters, mapActions} from 'vuex'
+// 引入载入动画组件
+import loading from '@/common/loading'
+// 引入载入flash组件
+import flash from '@/common/flash'
 
 // 全局样式
 import './stylus/general.styl'
+
+// 全局组件
+Vue.component('loading', loading)
+Vue.component('flash', flash)
 
 Vue.config.productionTip = false
 
@@ -26,7 +34,6 @@ new Vue({
   methods: {
     ...mapActions({
       setCsrfToken: 'setCsrfToken',
-      setUserKey: 'setUserKey',
       signup: 'signup'
     })
   },
@@ -37,7 +44,5 @@ new Vue({
       // 如果没有csrftoken则刷新页面
       data ? '' : location.reload()
     })
-    // 获取user_key,如获取成功，则表示登录成功
-    this.setUserKey()
   }
 })
