@@ -1,6 +1,6 @@
 // 异步action的返回值以{status: true or false, msg: '...'}
 
-// 控制loading, flash的装饰器
+// 控制loading, flash的装饰器, 后期可以拆分
 function loadingAndFlash (target, name, descriptor) {
   // 获取原函数
   const oldValue = descriptor.value
@@ -49,7 +49,7 @@ const getters = {
 
 // 实现mutations
 const mutations = {
-  setUserBasicInfo (state, payload) {
+  setUserInfo (state, payload) {
     state.user_info = payload.user_info
   },
   setCsrfToken (state, payload) {
@@ -68,24 +68,27 @@ const actions = {
         withCredentials: true
       })
       // msg字段判断是否获取成功
-      if (result.data.msg === 'success') {
+      if (result.data.status === 'success') {
         const _payload = {
-          csrf_token: result.data.data
+          csrf_token: result.data.msg
         }
         // 成功后resolve csrftoken
         context.commit('setCsrfToken', _payload)
-        return true
+        return {
+          status: 'success',
+          msg: 'set csrf toke successfully'
+        }
       } else {
         return {
-          status: true,
-          msg: 'set csrf token successfully'
+          status: 'failed',
+          msg: 'failed to set csrf token'
         }
       }
     } catch (e) {
       console.log(e)
       return {
-        status: false,
-        msg: 'failed to set csrf toke'
+        status: 'failed',
+        msg: e
       }
     }
   },
@@ -102,20 +105,20 @@ const actions = {
         withCredentials: true,
         headers: {'x-csrf-token': context.getters.csrf_token}
       })
-      if (result.data.msg === 'success') {
+      if (result.data.status === 'success') {
         // 登录成功需要更新用户信息
         const _payload = {
-          user_info: result.data.data
+          user_info: result.data.msg
         }
-        context.commit('setUserBasicInfo', _payload)
+        context.commit('setUserInfo', _payload)
         return {
-          status: true,
+          status: 'success',
           msg: 'login successfully'
         }
       }
     } catch (e) {
       return {
-        status: false,
+        status: 'failed',
         msg: e
       }
     }
@@ -134,27 +137,26 @@ const actions = {
         headers: {'x-csrf-token': context.getters.csrf_token}
       })
       // 判断是否注册成功
-      if (result.data.msg === 'success') {
+      if (result.data.status === 'success') {
         // 登录成功需要更新用户信息
         const _payload = {
-          user_info: result.data.data
+          user_info: result.data.msg
         }
-        context.commit('setUserBasicInfo', _payload)
+        context.commit('setUserInfo', _payload)
         return {
-          status: true,
+          status: 'success',
           msg: 'signup successfully'
         }
       } else {
-        console.log('failed to signup')
         return {
-          status: false,
-          msg: 'failed to signup'
+          status: 'failed',
+          msg: result.data.msg
         }
       }
     } catch (e) {
       console.log(e)
       return {
-        status: false,
+        status: 'failed',
         msg: e
       }
     }
@@ -170,18 +172,18 @@ const actions = {
         method: 'get',
         withCredentials: true
       })
-      if (result.data.msg === 'success') {
+      if (result.data.status === 'success') {
         // 登录成功需要更新用户信息
-        context.commit('setUserBasicInfo', {user_info: null})
+        context.commit('setUserInfo', {user_info: null})
         return {
-          status: true,
+          status: 'success',
           msg: 'logout successfully'
         }
       }
     } catch (e) {
       console.log(e)
       return {
-        status: false,
+        status: 'failed',
         msg: e
       }
     }
