@@ -3,7 +3,7 @@
 const Controller = require('egg').Controller
 
 class HomeController extends Controller {
-  async index() {
+  async index () {
     const {ctx} = this
     if (ctx.isAuthenticated()) {
       ctx.body = `hi ${ctx.user.name}`

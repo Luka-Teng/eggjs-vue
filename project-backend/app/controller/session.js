@@ -65,25 +65,6 @@ class SessionController extends Controller {
     }
   }
 
-  //get egg_sess
-  async eggSess () {
-    const {ctx} = this
-    const egg_sess = ctx.cookies.get('EGG_SESS', {
-      signed: false,
-      httpOnly: true
-    })
-    if (egg_sess) {
-      ctx.body = {
-        msg: 'success',
-        data: egg_sess
-      }
-    } else {
-      ctx.body = {
-        msg: 'failed',
-        data: null
-      }
-    }
-  }
 }
 
 module.exports = SessionController

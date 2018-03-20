@@ -37,6 +37,4 @@ module.exports = app => {
   //获取csrftoken
   router.get('/csrftoken', controller.session.csrfToken)
 
-  //获取登录信息的session
-  router.get('/egg_sess', controller.session.eggSess)
 };
