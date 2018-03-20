@@ -88,7 +88,7 @@ const actions = {
       console.log(e)
       return {
         status: 'failed',
-        msg: e
+        msg: e.response.data.message
       }
     }
   },
@@ -119,7 +119,7 @@ const actions = {
     } catch (e) {
       return {
         status: 'failed',
-        msg: e
+        msg: e.response.data.message
       }
     }
   },
@@ -157,7 +157,7 @@ const actions = {
       console.log(e)
       return {
         status: 'failed',
-        msg: e
+        msg: e.response.data.message
       }
     }
   },
@@ -184,7 +184,7 @@ const actions = {
       console.log(e)
       return {
         status: 'failed',
-        msg: e
+        msg: e.response.data.message
       }
     }
   }
