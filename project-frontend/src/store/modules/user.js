@@ -26,7 +26,8 @@ const apis = {
   'user_signup': server_host + '/signup',
   'user_csrf_token': server_host + '/csrftoken',
   'user_login': server_host + '/login/local',
-  'user_logout': server_host + '/logout'
+  'user_logout': server_host + '/logout',
+  'user_autoLogin': server_host + '/autoLogin'
 }
 
 // 实现state的数据
@@ -178,6 +179,39 @@ const actions = {
         return {
           status: 'success',
           msg: 'logout successfully'
+        }
+      }
+    } catch (e) {
+      console.log(e)
+      return {
+        status: 'failed',
+        msg: e.response.data.message
+      }
+    }
+  },
+
+  // 用户的自动登录，web app初始化的时候执行
+  // loading动画和flash显示的装饰器
+  @loadingAndFlash
+  async autoLogin (context) {
+    try {
+      const result = await axios({
+        url: apis.user_autoLogin,
+        method: 'post',
+        withCredentials: true,
+        headers: {'x-csrf-token': context.getters.csrf_token}
+      })
+      if (result.data.status === 'success') {
+        // 登录成功需要更新用户信息
+        context.commit('setUserInfo', {user_info: result.data.msg})
+        return {
+          status: 'success',
+          msg: 'autoLogin successfully'
+        }
+      } else {
+        return {
+          status: 'failed',
+          msg: 'failed to autoLogin'
         }
       }
     } catch (e) {

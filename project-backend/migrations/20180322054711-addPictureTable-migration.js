@@ -3,28 +3,27 @@
 module.exports = {
   up: async function (queryInterface, Sequelize) {
     const { STRING, INTEGER, DATE } = Sequelize;
-    await queryInterface.createTable('user',  {
+    await queryInterface.createTable('picture',  {
       id: {
         type: INTEGER,
         primaryKey: true,
         autoIncrement: true,
       },
-      name: {
-        type: STRING(30),
-        allowNull: false
-      },
-      age: {
-        type: INTEGER,
-        allowNull: false
-      },
-      email: {
+      url: {
         type: STRING(50),
         allowNull: false,
-        unique: true
+        defaultValue: '/'
       },
-      password: {
-        type: STRING(50),
-        allowNull: false
+      user_id: {
+        type: INTEGER,
+        references: {
+          // This is a reference to another model
+          model: "user",
+          // This is the column name of the referenced model
+          key: 'id',
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       created_at: {
         type: DATE
@@ -36,6 +35,6 @@ module.exports = {
   },
 
   down: async function (queryInterface, Sequelize) {
-      await queryInterface.dropTable('user')
+    await queryInterface.dropTable('picture')
   }
 };

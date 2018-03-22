@@ -37,4 +37,7 @@ module.exports = app => {
   //获取csrftoken
   router.get('/csrftoken', controller.session.csrfToken)
 
+  // 自动登录
+  router.post('/autoLogin', controller.session.autoLogin)
+
 };

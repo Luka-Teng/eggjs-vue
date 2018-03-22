@@ -1,39 +1,32 @@
 module.exports = app => {
   const { STRING, INTEGER, DATE } = app.Sequelize;
 
-  const User = app.model.define('user', {
+  const Picture = app.model.define('picture', {
     id: {
       type: INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
-      type: STRING(30),
-      allowNull: false
-    },
-    age: {
-      type: INTEGER,
-      allowNull: false
-    },
-    email: {
+    url: {
       type: STRING(50),
       allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true
-      }
+      defaultValue: '/'
     },
-    password: {
-      type: STRING(50),
-      allowNull: false
+    user_id: {
+      type: INTEGER
+    },
+    tag_name: {
+      type: STRING(30),
+      defaultValue: 'default'
     }
   }, {
     freezeTableName: true,
     underscored: true
   })
 
-  User.associate = function() {
-      app.model.User.hasMany(app.model.Picture, { as: 'picture', foreignKey: 'user_id', targetKey: 'id'});
+  Picture.associate = function() {
+      app.model.Picture.belongsTo(app.model.User, { as: 'user', foreignKey: 'user_id', targetKey: 'id'})
+      app.model.Picture.belongsTo(app.model.Tag, { as: 'tag', foreignKey: 'tag_name', targetKey: 'tag_name'})
   }
 
   //添加类方法, 不要用箭头函数，会改变this的指向
@@ -42,5 +35,5 @@ module.exports = app => {
   //添加实例方法
   //CLASSNAME.prototype.method = function () {}
 
-  return User;
+  return Picture;
 };
