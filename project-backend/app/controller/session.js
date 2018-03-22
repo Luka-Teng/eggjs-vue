@@ -65,6 +65,22 @@ class SessionController extends Controller {
     }
   }
 
+  // autoLogin
+  async autoLogin () {
+    const {ctx} = this
+    if (ctx.isAuthenticated()) {
+      ctx.body = {
+        status: 'success',
+        msg: ctx.user.dataValues
+      }
+    } else {
+      ctx.body = {
+        status: 'failed',
+        msg: null
+      }
+    }
+  }
+
 }
 
 module.exports = SessionController
