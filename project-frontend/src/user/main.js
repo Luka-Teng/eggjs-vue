@@ -34,7 +34,8 @@ new Vue({
   methods: {
     ...mapActions({
       setCsrfToken: 'setCsrfToken',
-      signup: 'signup'
+      signup: 'signup',
+      autoLogin: 'autoLogin'
     })
   },
   created () {
@@ -43,6 +44,8 @@ new Vue({
     this.setCsrfToken().then((data) => {
       // 如果没有csrftoken则刷新页面
       data.status === 'success' ? '' : location.reload()
+      // 获取csrftoken后，自动登录
+      this.autoLogin()
     })
   }
 })
