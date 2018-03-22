@@ -40,4 +40,6 @@ module.exports = app => {
   // 自动登录
   router.post('/autoLogin', controller.session.autoLogin)
 
+  // 上传图片
+  router.post('/uploadPictures', controller.picture.uploadPictures)
 };

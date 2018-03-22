@@ -12,7 +12,7 @@
             li
               router-link(:to="{name: 'user_signup'}" v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") signup
             li
-              a(href="javascript:void(0)" @click="_logout" v-if="user_info") logout
+              a(href="javascript:void(0)" @click="_logout" v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") logout
 
     // 显示csrftoken和用户登录信息
     div(class="w3-row w3-margin-top")
