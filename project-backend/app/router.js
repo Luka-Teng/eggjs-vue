@@ -41,5 +41,8 @@ module.exports = app => {
   router.post('/autoLogin', controller.session.autoLogin)
 
   // 上传图片
-  router.post('/uploadPictures', controller.picture.uploadPictures)
+  router.post('/uploadPictures', auth, controller.picture.uploadPictures)
+
+  // 删除图片
+  router.post('/removePictures', auth, controller.picture.removePictures)
 };

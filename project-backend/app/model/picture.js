@@ -7,10 +7,15 @@ module.exports = app => {
       primaryKey: true,
       autoIncrement: true,
     },
+    name: {
+      type: STRING(50),
+      allowNull: false
+    },
     url: {
       type: STRING(50),
       allowNull: false,
-      defaultValue: '/'
+      defaultValue: '/',
+      unique: true
     },
     user_id: {
       type: INTEGER

@@ -1,55 +1,79 @@
 'use strict';
-const fs = require('fs')
-const path = require('path')
-const sendToWormhole = require('stream-wormhole')
-const awaitWriteStream = require('await-stream-ready').write
 const Controller = require('egg').Controller
 
 class PictureController extends Controller {
   // upload the pictures
-  async uploadPictures() {
+  async uploadPictures () {
     const {ctx} = this
-    const parts = this.ctx.multipart()
-    // part存放文件流，files存放以存储的文件名
-    let part, files = []
-    // parts 返回promise
-    while ((part = await parts()) != null) {
-      if (part.length) {
-        // 如果是数组的话是普通的字段
-        console.log('field: ' + part[0])
-        console.log('value: ' + part[1])
+    const user_id = ctx.user.id
+    try {
+      const result = await ctx.service.picture.savePictures()
+      const {tag_name, files} = result
+      // 如果存在已经存储的文件，则写入数据库
+      if (files.length) {
+        const pictures_data = []
+        files.forEach((file) => {
+          pictures_data.push({
+            url: file.path,
+            name: file.filename,
+            user_id: user_id,
+            tag_name: tag_name
+          })
+        })
+        await ctx.model.Picture.bulkCreate(pictures_data, { validate: true })
+        ctx.body = {
+          status: 'success',
+          msg: 'store the files successfully'
+        }
       } else {
-        if (!part.filename) {
-          // 这时是用户没有选择文件就点击了上传(part 是 file stream，但是 part.filename 为空)
-          // 需要做出处理，例如给出错误提示消息
-          return
+        ctx.body = {
+          status: 'failed',
+          msg: 'no pictures'
         }
-        // part 是上传的文件流
-        console.log('field: ' + part.fieldname)
-        console.log('filename: ' + part.filename)
-        console.log('encoding: ' + part.encoding)
-        console.log('mime: ' + part.mime)
-        // 获取文件名
-        const filename = part.filename
-        // 获取文件存放路径
-        const target = path.join(this.config.baseDir, 'app/public', filename)
-        // 创建write流
-        const writeStream = fs.createWriteStream(target)
-        // 写入app/public文件夹
-        try {
-          await awaitWriteStream(part.pipe(writeStream))
-        } catch (err) {
-          await sendToWormhole(part)
-          throw err
-        }
-        // 加入files数组
-        files.push(filename)
+      }
+    } catch (e) {
+      ctx.body = {
+        status: 'failed',
+        msg: e
       }
     }
-
   }
-  // delete the pictures
 
+  // remove the pictures
+  async removePictures () {
+    const {ctx} = this
+    const user_id = ctx.user.id
+    const urls = ctx.request.body.urls
+    try {
+      // 创建异步函数集
+      const async_funcs = urls.map((url) => {
+        return async function () {
+          let result = await ctx.model.Picture.destroy({
+            where: {
+              id: user_id,
+              url: url
+            }
+          })
+          if (result > 0) {
+            ctx.service.removePicture(url)
+          }
+        }
+      })
+      // 将异步函数同步运行
+      for (let async_func of async_funcs) {
+        await async_func()
+      }
+      ctx.body = {
+        status: 'success',
+        msg: 'remove the pictures successfully'
+      }
+    } catch (e) {
+      ctx.body = {
+        status: 'failed',
+        msg: e
+      }
+    }
+  }
   // get the pictures
 
 }

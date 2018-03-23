@@ -4,9 +4,9 @@ module.exports = () => {
       next()
     } else {
       ctx.body = {
-        msg: 'no permission to access'
+        status: 'failed',
+        msg: 'unauthorized'
       }
-      ctx.status = 500
     }
   }
 }
