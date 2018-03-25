@@ -1,7 +1,7 @@
 module.exports = () => {
   return async function (ctx, next) {
     if (ctx.isAuthenticated()) {
-      next()
+      await next()
     } else {
       ctx.body = {
         status: 'failed',

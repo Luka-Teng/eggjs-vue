@@ -8,7 +8,7 @@ class PictureService extends Service {
   // 保存图片
   async savePictures () {
     const {ctx} = this
-    const parts = this.ctx.multipart()
+    const parts = this.ctx.multipart({ autoFields: true })
     // part存放文件流，files存储文件名和路径, tag_name存储这批图片的标签
     let part, tag_name, files = []
     // parts 返回promise
@@ -21,17 +21,17 @@ class PictureService extends Service {
         if (!part.filename) {
           // 这时是用户没有选择文件就点击了上传(part 是 file stream，但是 part.filename 为空)
           // 需要做出处理，例如给出错误提示消息
-          continue
+          throw "can not process with empty file"
         }
         // part 是上传的文件流
-        console.log('field: ' + part.fieldname)
-        console.log('filename: ' + part.filename)
-        console.log('encoding: ' + part.encoding)
-        console.log('mime: ' + part.mime)
         // 获取文件名
         const filename = part.filename
         // 获取文件后缀名
         const suffix = filename.split('.').splice(-1)
+        // 判断是否是图片，否则报错
+        if (!suffix || !ctx.helper.isImage(part.mime)) {
+          throw "invalid file"
+        }
         // 获取token文件名
         const token_name = ctx.helper.getToken() + '.' + suffix
         // 获取文件存放路径
