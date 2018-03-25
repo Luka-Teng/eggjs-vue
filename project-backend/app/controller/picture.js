@@ -74,7 +74,33 @@ class PictureController extends Controller {
       }
     }
   }
-  // get the pictures
+
+  // 获取图片tags
+  async tags () {
+    const {ctx} = this
+    try {
+      let all_tags = await ctx.model.Tag.findAll()
+      all_tags = all_tags.map((tag) => {
+        return tag.dataValues.tag_name
+      })
+      if (all_tags.length > 0) {
+        ctx.body = {
+          status: 'success',
+          msg: all_tags,
+        }
+      } else {
+        ctx.body = {
+          status: 'failed',
+          msg: 'tags unavailable',
+        }
+      }
+    } catch (e) {
+      ctx.body = {
+        status: 'failed',
+        msg: e
+      }
+    }
+  }
 
 }
 

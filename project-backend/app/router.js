@@ -45,4 +45,7 @@ module.exports = app => {
 
   // 删除图片
   router.post('/removePictures', auth, controller.picture.removePictures)
+
+  // 获取图片tags
+  router.get('/tags', controller.picture.tags)
 };
