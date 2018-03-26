@@ -29,6 +29,9 @@ const actions = {
   clearFlash ({commit}, payload) {
     commit('clearFlash')
   },
+  setFlash ({commit}, payload) {
+    commit('setFlash', payload)
+  },
   setLoading ({commit}, payload) {
     commit('setLoading', payload)
   }

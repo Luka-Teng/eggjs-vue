@@ -1,5 +1,5 @@
 <template lang="jade">
-  #app
+  #app(class="w3-margin-bottom")
     // 头部导航栏
     div(class="w3-container w3-blue")
       div(class="w3-row")
