@@ -41,10 +41,18 @@ module.exports = {
       onUpdate: 'cascade',
       onDelete: 'cascade'
     })
-
+    // tag表添加列 default
+    await queryInterface.bulkInsert('tag', [{
+      tag_name: 'default',
+      created_at: new Date(),
+      updated_at: new Date()
+    }])
   },
 
   down: async function (queryInterface, Sequelize) {
+    await queryInterface.bulkDelete('tag', {
+        tag_name: 'default'
+    })
     await queryInterface.removeConstraint('picture', 'picture_ref_tag')
     await queryInterface.removeColumn('picture', 'tag_name')
     await queryInterface.dropTable('tag')

@@ -13,7 +13,7 @@ module.exports = app => {
       unique: true,
       defaultValue: 'default',
       validate: {
-        isIn: [['default']]
+        isIn: [['default', 'pink', 'aqua']]
       }
     }
   }, {
