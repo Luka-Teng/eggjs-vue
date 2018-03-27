@@ -79,6 +79,11 @@ export default {
         }
       })
     }
+  },
+  watch: {
+    user_info () {
+      this.$router.push(this.in_path)
+    }
   }
 }
 </script>
