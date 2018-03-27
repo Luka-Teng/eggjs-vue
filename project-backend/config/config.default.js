@@ -38,5 +38,9 @@ module.exports = appInfo => {
     credentials: true
   }
 
+  exports.multipart = {
+    files: 30
+  };
+
   return config;
 };

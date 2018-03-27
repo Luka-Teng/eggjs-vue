@@ -118,7 +118,8 @@ export default {
   },
   mounted () {
     const dragField = new DragFiles({
-      id: 'drag-content'
+      id: 'drag-content',
+      max_files: 20
     })
     dragField.onDragOver((target) => {
       this.drag_area_class = 'in'

@@ -54,6 +54,12 @@ const actions = {
         headers: {
           'x-csrf-token': context.getters.csrf_token,
           'Content-Type': 'multipart/form-data'
+        },
+        onUploadProgress (progressEvent) {
+          const {lengthComputable, loaded, total} = progressEvent
+          if (lengthComputable) {
+            console.log(parseFloat(loaded / total))
+          }
         }
       })
       if (result.data.status === 'success') {
