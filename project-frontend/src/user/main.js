@@ -48,7 +48,11 @@ new Vue({
       // 如果没有csrftoken则刷新页面
       data.status === 'success' ? '' : location.reload()
       // 获取csrftoken后，自动登录
-      this.autoLogin()
+      this.autoLogin().then((data) => {
+        if (data.status === 'success') {
+          this.$router.push(this.in_path)
+        }
+      })
     })
   }
 })

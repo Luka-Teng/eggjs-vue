@@ -75,14 +75,9 @@ export default {
     _logout () {
       this.logout().then((data) => {
         if (data.status === 'success') {
-          this.$router.push('/user')
+          this.$router.push('/user/login')
         }
       })
-    }
-  },
-  watch: {
-    user_info () {
-      this.$router.push(this.in_path)
     }
   }
 }

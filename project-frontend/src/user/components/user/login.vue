@@ -43,7 +43,7 @@ export default {
         }
         this.login(payload).then((data) => {
           if (data.status === 'success') {
-            this.$router.push('/user')
+            this.$router.push('/showGallery')
           }
         })
       } else {
