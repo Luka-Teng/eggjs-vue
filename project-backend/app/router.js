@@ -48,4 +48,7 @@ module.exports = app => {
 
   // 获取图片tags
   router.get('/tags', controller.picture.tags)
+
+  // 获取图片
+  router.get('/getPictures', auth, controller.picture.getPictures)
 };

@@ -5,7 +5,7 @@ module.exports = () => {
     } else {
       ctx.body = {
         status: 'failed',
-        msg: 'unauthorized'
+        msg: 'session expired'
       }
     }
   }

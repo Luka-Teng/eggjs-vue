@@ -8,15 +8,16 @@ class PictureService extends Service {
   // 保存图片
   async savePictures () {
     const {ctx} = this
-    const parts = this.ctx.multipart({ autoFields: true })
+    const parts = this.ctx.multipart()
     // part存放文件流，files存储文件名和路径, tag_name存储这批图片的标签
-    let part, tag_name, files = []
+    let part, tag_name = 'default', files = []
     // parts 返回promise
     while ((part = await parts()) != null) {
       if (part.length) {
         // 如果是数组的话是普通的字段
         // part[0]: field, part[1]: value
-        part[0] === 'tag_name' ? (part[1] ? tag_name = part[1] : tag_name = 'default') : ''
+        tag_name = 'grass'
+        part[0] === 'tag_name' ? (part[1] ? tag_name = part[1] : '') : ''
       } else {
         if (!part.filename) {
           // 这时是用户没有选择文件就点击了上传(part 是 file stream，但是 part.filename 为空)

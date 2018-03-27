@@ -43,8 +43,17 @@ class PictureController extends Controller {
   async removePictures () {
     const {ctx} = this
     const user_id = ctx.user.id
-    const urls = ctx.request.body.urls
+    // 字段验证
+    const rule = {
+      urls: {
+        type: 'array',
+        required: true,
+        itemType: 'string'
+      }
+    }
     try {
+      ctx.validate(rule)
+      const urls = ctx.request.body.urls
       // 创建异步函数集
       const async_funcs = urls.map((url) => {
         return async function () {
@@ -79,14 +88,14 @@ class PictureController extends Controller {
   async tags () {
     const {ctx} = this
     try {
-      let all_tags = await ctx.model.Tag.findAll()
-      all_tags = all_tags.map((tag) => {
-        return tag.dataValues.tag_name
-      })
+      const all_tags = await ctx.model.Tag.findAll()
       if (all_tags.length > 0) {
+        const data = all_tags.map((tag) => {
+          return tag.dataValues.tag_name
+        })
         ctx.body = {
           status: 'success',
-          msg: all_tags,
+          msg: data,
         }
       } else {
         ctx.body = {
@@ -102,6 +111,56 @@ class PictureController extends Controller {
     }
   }
 
+  // 获取图片
+  async getPictures () {
+    const {ctx} = this
+    const user_id = ctx.user.id
+    // 字段验证
+    const rule = {
+      from: {
+        type: 'int',
+        required: true
+      },
+      limit: {
+        type: 'int',
+        required: true
+      }
+    }
+    try {
+      const {from, limit} = {
+        from: parseInt(ctx.request.query.from),
+        limit: parseInt(ctx.request.query.limit)
+      }
+      ctx.validate(rule, {from, limit})
+      // 获取图片
+      const pictures = await ctx.model.Picture.findAll({
+        where: {
+          user_id: user_id
+        },
+        offset: from,
+        limit: limit
+      })
+      if (pictures.length > 0) {
+        const data = pictures.map((picture) => {
+          return picture.dataValues
+        })
+        ctx.body = {
+          status: 'success',
+          msg: data,
+        }
+      } else {
+        ctx.body = {
+          status: 'failed',
+          msg: 'pictures unavailable',
+        }
+      }
+    } catch (e) {
+      ctx.body = {
+        status: 'failed',
+        msg: e
+      }
+    }
+  }
 }
 
 module.exports = PictureController
