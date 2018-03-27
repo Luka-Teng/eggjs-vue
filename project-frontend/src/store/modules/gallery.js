@@ -1,18 +1,19 @@
 // 异步action的返回值以{status: true or false, msg: '...'}
-import {loadingAndFlash} from '../decorator'
+import {loadingAndFlash, loading} from '../decorator'
 // 所需要用到的api，后期可以分离
 const server_host = 'http://localhost:7001'
 const apis = {
   'gallery_upload': server_host + '/uploadPictures',
   'gallery_remove': server_host + '/removePictures',
-  'gallery_get_tags': server_host + '/tags'
+  'gallery_get_tags': server_host + '/tags',
+  'gallery_get_pictures': server_host + '/getPictures'
 }
 
 // 实现state的数据
 const state = {
   // 当前的图库
-  gallery_shown: null,
-  tags: null
+  gallery_shown: [],
+  tags: []
 }
 
 // 实现getters
@@ -27,8 +28,12 @@ const getters = {
 
 // 实现mutations
 const mutations = {
-  gallery_shown (state, payload) {
+  set_gallery (state, payload) {
     state.gallery_shown = payload
+  },
+  add_gallery (state, payload) {
+    // payload必须是array
+    state.gallery_shown.push(...payload)
   },
   tags (state, payload) {
     state.tags = payload
@@ -82,6 +87,36 @@ const actions = {
         return {
           status: 'success',
           msg: 'get the tags successfully'
+        }
+      } else {
+        return {
+          status: 'failed',
+          msg: result.data.msg
+        }
+      }
+    } catch (e) {
+      return {
+        status: 'failed',
+        msg: e.response.data.message
+      }
+    }
+  },
+
+  // 获取图片, from是图片的index，limit是图片数
+  @loading
+  async loadPictures (context, {from, limit}) {
+    try {
+      const result = await axios({
+        url: apis.gallery_get_pictures,
+        method: 'get',
+        params: {from, limit},
+        withCredentials: true
+      })
+      if (result.data.status === 'success') {
+        context.commit('set_gallery', result.data.msg)
+        return {
+          status: 'success',
+          msg: 'get the pictures successfully'
         }
       } else {
         return {

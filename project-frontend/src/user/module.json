@@ -4,5 +4,5 @@
   "author": "Luka",
   "entry": "main.js",
   "template": "index.jade",
-  "filename": "user/index.html"
+  "filename": "index.html"
 }

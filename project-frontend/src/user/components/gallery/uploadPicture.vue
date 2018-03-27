@@ -1,34 +1,38 @@
 <template lang="jade">
   div
     div(class="w3-container w3-teal")
-      h2 Upload Gallery
+      h2 Upload Pictures
     div(class="w3-container w3-card-4 w3-padding-bottom")
       div(class="w3-row")
         div(class="w3-col s3 w3-padding-medium" v-for="tag in tags")
-          <input class="w3-radio" type="radio" name="tags" :value="tag" checked>
+          <input class="w3-radio" type="radio" name="tags" :value="tag" v-model="selected_tag">
           <label class="w3-validate">{{tag}}</label>
       div(class="w3-row w3-section-12 w3-padding-left")
         div(id="drag-content" v-bind:class="[drag_area_class]")
           div(class="drag-icon") +
         div(style="float: left;width: calc(100% - 550px);text-align: center;margin-top: 65px;")
-          <a class="w3-btn w3-xxlarge w3-teal">UPLOAD</a>
+          <a class="w3-btn w3-xxlarge w3-teal" @click="upload">UPLOAD</a>
       div(class="w3-row")
         div(class="w3-col s3 w3-padding")
-          div(class="img-wrapper relative w3-col w3-round w3-border w3-margin-bottom" v-for="image in images_col_1" v-bind:key="image.id")
-            img(v-bind:src="image.src" class="img-responsive")
-            <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
+          transition-group(name="fade")
+            div(class="img-wrapper relative w3-col w3-round w3-border w3-margin-bottom" v-for="image in images_col_1" v-bind:key="image.id")
+              img(v-bind:src="image.src" class="img-responsive" @click="modal.show(image.src)")
+              <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
         div(class="w3-col s3 w3-padding")
-          div(class="img-wrapper relative w3-col w3-round w3-border w3-margin-bottom" v-for="image in images_col_2" v-bind:key="image.id")
-            img(v-bind:src="image.src" class="img-responsive")
-            <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
+          transition-group(name="fade")
+            div(class="img-wrapper relative w3-col w3-round w3-border w3-margin-bottom" v-for="image in images_col_2" v-bind:key="image.id")
+              img(v-bind:src="image.src" class="img-responsive" @click="modal.show(image.src)")
+              <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
         div(class="w3-col s3 w3-padding")
-          div(class="img-wrapper relative w3-col w3-round w3-border w3-margin-bottom" v-for="image in images_col_3" v-bind:key="image.id")
-            img(v-bind:src="image.src" class="img-responsive")
-            <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
+          transition-group(name="fade")
+            div(class="img-wrapper relative w3-col w3-round w3-border w3-margin-bottom" v-for="image in images_col_3" v-bind:key="image.id")
+              img(v-bind:src="image.src" class="img-responsive" @click="modal.show(image.src)")
+              <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
         div(class="w3-col s3 w3-padding")
-          div(class="img-wrapper relative w3-col w3-round w3-border w3-margin-bottom" v-for="image in images_col_4" v-bind:key="image.id")
-            img(v-bind:src="image.src" class="img-responsive")
-            <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
+          transition-group(name="fade")
+            div(class="img-wrapper relative w3-col w3-round w3-border w3-margin-bottom" v-for="image in images_col_4" v-bind:key="image.id")
+              img(v-bind:src="image.src" class="img-responsive" @click="modal.show(image.src)")
+              <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
 </template>
 
 <script>
@@ -36,6 +40,8 @@
 import {mapGetters, mapActions} from 'vuex'
 // 文件拖拽包
 import DragFiles from '@/utils/dragFiles'
+// 图片展示
+import {ShowImage} from '@/utils/tools'
 
 export default {
   data () {
@@ -44,7 +50,9 @@ export default {
       images: [],
       // 需要上传的formData
       files: [],
-      drag_area_class: ''
+      drag_area_class: '',
+      selected_tag: 'default',
+      modal: new ShowImage()
     }
   },
   computed: {
@@ -80,19 +88,29 @@ export default {
       setFlash: 'setFlash'
     }),
     onDelete (id) {
-      this.images.splice(this.images.indexOf(id), 1)
+      this.images.forEach((image, index) => {
+        if (image.id === id) {
+          this.images.splice(index, 1)
+        }
+      })
       this.files.forEach((file, index) => {
         if (file.id === id) {
           this.files.splice(index, 1)
         }
       })
     },
-    onFilePicked (event) {
-      const files = event.target.files
-      this.image = files[0]
-      let param = new FormData()
-      param.append('file[]', files[0])
-      this.uploadPictures(param)
+    upload () {
+      const formData = new FormData()
+      formData.append('tag_name', this.selected_tag)
+      this.files.forEach((file) => {
+        formData.append(file.name, file.file)
+      })
+      this.uploadPictures(formData).then((data) => {
+        if (data.status === 'success') {
+          this.files = []
+          this.images = []
+        }
+      })
     }
   },
   created () {
@@ -116,19 +134,18 @@ export default {
       } else {
         data.data.forEach((file) => {
           // 把拖拽的文件加入总文件
+          const id = this.files.length
           this.files.push({
-            id: this.files.length,
+            id: id,
             name: file.name,
             file: file.file
           })
           // 将数据存储为base64
-          console.log(1111)
-          console.log(file.file)
           const fileReader = new FileReader()
           fileReader.addEventListener('load', () => {
             this.images.push({
               src: fileReader.result,
-              id: this.files.length
+              id: id
             })
           })
           fileReader.readAsDataURL(file.file)
@@ -167,4 +184,15 @@ export default {
   &:hover
     .drag-delete
       display block
+
+.fade-enter-active
+.fade-leave-active
+  transition: opacity .5s
+  transition: all .5s
+
+.fade-enter
+.fade-leave-to
+  opacity: 0
+  transform: translateY(30px)
+
 </style>

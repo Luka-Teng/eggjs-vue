@@ -18,7 +18,8 @@ Vue.component('loading', loading)
 Vue.component('flash', flash)
 
 Vue.config.productionTip = false
-
+// 获取后台服务器地址
+Vue.prototype.origin = 'http://localhost:7001'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

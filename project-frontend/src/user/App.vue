@@ -8,13 +8,15 @@
         div(class="w3-col s9")
           ul(class="w3-navbar")
             li
+              router-link(:to="{name: 'show_gallery'}" v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Show Gallery
+            li
+              router-link(:to="{name: 'upload_picture'}" v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Picture
+            li
               router-link(:to="{name: 'user_login'}" v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") login
             li
               router-link(:to="{name: 'user_signup'}" v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") signup
             li
               a(href="javascript:void(0)" @click="_logout" v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") logout
-            li
-              router-link(:to="{name: 'upload_gallery'}" v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Gallery
 
     // 显示csrftoken和用户登录信息
     div(class="w3-row w3-margin-top")
@@ -56,7 +58,8 @@ export default {
   computed: {
     ...mapGetters({
       csrf_token: 'csrf_token',
-      user_info: 'user_info'
+      user_info: 'user_info',
+      from: 'from'
     }),
     csrf_token_or_null () {
       return this.csrf_token ? this.csrf_token : 'Failed to get it.'
