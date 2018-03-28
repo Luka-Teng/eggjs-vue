@@ -1,5 +1,5 @@
 // 异步action的返回值以{status: true or false, msg: '...'}
-import {loadingAndFlash, loading} from '../decorator'
+import {loading, flash, checkSession, loadingAndFlash} from '../decorator'
 // 所需要用到的api，后期可以分离
 const server_host = 'http://localhost:7001'
 const apis = {
@@ -43,13 +43,14 @@ const mutations = {
 // 实现actions, 异步的同一用async函数，前台获取用promise
 const actions = {
   // 上传用户的图库
-  @loadingAndFlash
-  async uploadPictures (context, payload) {
+  @flash
+  @checkSession
+  async uploadPictures (context, {data, cb}) {
     try {
       const result = await axios({
         url: apis.gallery_upload,
         method: 'post',
-        data: payload,
+        data: data,
         withCredentials: true,
         headers: {
           'x-csrf-token': context.getters.csrf_token,
@@ -58,7 +59,8 @@ const actions = {
         onUploadProgress (progressEvent) {
           const {lengthComputable, loaded, total} = progressEvent
           if (lengthComputable) {
-            console.log(parseFloat(loaded / total))
+            // callback to handle the progress animation
+            cb(parseFloat(loaded / total))
           }
         }
       })
@@ -110,6 +112,7 @@ const actions = {
 
   // 获取图片, from是图片的index，limit是图片数
   @loading
+  @checkSession
   async loadPictures (context, {from, limit}) {
     try {
       const result = await axios({
@@ -122,7 +125,44 @@ const actions = {
         context.commit('set_gallery', result.data.msg)
         return {
           status: 'success',
-          msg: 'get the pictures successfully'
+          msg: 'get the pictures successfully',
+          limit: limit
+        }
+      } else {
+        return {
+          status: 'failed',
+          msg: result.data.msg
+        }
+      }
+    } catch (e) {
+      return {
+        status: 'failed',
+        msg: e.response.data.message
+      }
+    }
+  },
+
+  // 批量删除图片
+  @loadingAndFlash
+  @checkSession
+  async deletePictures (context, payload) {
+    try {
+      const result = await axios({
+        url: apis.gallery_remove,
+        method: 'post',
+        data: {urls: payload},
+        withCredentials: true,
+        headers: {
+          'x-csrf-token': context.getters.csrf_token
+        }
+      })
+      if (result.data.status === 'success') {
+        const before_length = context.getters.gallery_shown.length
+        context.commit('set_gallery', [])
+        return {
+          status: 'success',
+          msg: 'remove the pictures successfully',
+          limit: before_length
         }
       } else {
         return {

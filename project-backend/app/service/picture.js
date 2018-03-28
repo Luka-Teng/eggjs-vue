@@ -48,7 +48,7 @@ class PictureService extends Service {
         }
         // 加入files数组
         files.push({
-          path: path.join('/public', token_name),
+          path: token_name,
           filename: filename
         })
       }
@@ -63,9 +63,9 @@ class PictureService extends Service {
   // 删除图片，同步函数不需要async
   removePicture (url) {
     // 从url转到path
-    path = url.join(this.config.baseDir, 'app', path)
+    const _path = path.join(this.config.baseDir, 'app/public', url)
     // 删除文件
-    fs.unlinkSync(path)
+    fs.unlinkSync(_path)
   }
 }
 

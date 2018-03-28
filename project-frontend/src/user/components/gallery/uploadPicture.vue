@@ -12,25 +12,12 @@
           div(class="drag-icon") +
         div(style="float: left;width: calc(100% - 550px);text-align: center;margin-top: 65px;")
           <a class="w3-btn w3-xxlarge w3-teal" @click="upload">UPLOAD</a>
+      div(class="w3-row w3-section-12 w3-padding-left")
+        progress_bar(v-bind:percentage="percentage")
       div(class="w3-row")
-        div(class="w3-col s3 w3-padding")
+        div(class="w3-col w3-padding" style="column-count:3")
           transition-group(name="fade")
-            div(class="img-wrapper relative w3-col w3-round w3-border w3-margin-bottom" v-for="image in images_col_1" v-bind:key="image.id")
-              img(v-bind:src="image.src" class="img-responsive" @click="modal.show(image.src)")
-              <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
-        div(class="w3-col s3 w3-padding")
-          transition-group(name="fade")
-            div(class="img-wrapper relative w3-col w3-round w3-border w3-margin-bottom" v-for="image in images_col_2" v-bind:key="image.id")
-              img(v-bind:src="image.src" class="img-responsive" @click="modal.show(image.src)")
-              <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
-        div(class="w3-col s3 w3-padding")
-          transition-group(name="fade")
-            div(class="img-wrapper relative w3-col w3-round w3-border w3-margin-bottom" v-for="image in images_col_3" v-bind:key="image.id")
-              img(v-bind:src="image.src" class="img-responsive" @click="modal.show(image.src)")
-              <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
-        div(class="w3-col s3 w3-padding")
-          transition-group(name="fade")
-            div(class="img-wrapper relative w3-col w3-round w3-border w3-margin-bottom" v-for="image in images_col_4" v-bind:key="image.id")
+            div(class="img-wrapper relative w3-round w3-border w3-margin-bottom" v-for="image in images" v-bind:key="image.id")
               img(v-bind:src="image.src" class="img-responsive" @click="modal.show(image.src)")
               <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
 </template>
@@ -42,7 +29,8 @@ import {mapGetters, mapActions} from 'vuex'
 import DragFiles from '@/utils/dragFiles'
 // 图片展示
 import {ShowImage} from '@/utils/tools'
-
+// progressbar组件
+import progress_bar from '@/common/progressBar'
 export default {
   data () {
     return {
@@ -52,33 +40,17 @@ export default {
       files: [],
       drag_area_class: '',
       selected_tag: 'default',
-      modal: new ShowImage()
+      modal: new ShowImage(),
+      percentage: '0%'
     }
+  },
+  components: {
+    progress_bar
   },
   computed: {
     ...mapGetters({
       tags: 'tags'
-    }),
-    images_col_1 () {
-      return this.images.filter((image, index) => {
-        return index % 4 === 0
-      })
-    },
-    images_col_2 () {
-      return this.images.filter((image, index) => {
-        return index % 4 === 1
-      })
-    },
-    images_col_3 () {
-      return this.images.filter((image, index) => {
-        return index % 4 === 2
-      })
-    },
-    images_col_4 () {
-      return this.images.filter((image, index) => {
-        return index % 4 === 3
-      })
-    }
+    })
   },
   methods: {
     ...mapActions({
@@ -105,7 +77,13 @@ export default {
       this.files.forEach((file) => {
         formData.append(file.name, file.file)
       })
-      this.uploadPictures(formData).then((data) => {
+      this.uploadPictures({
+        data: formData,
+        cb: (percentage) => {
+          this.percentage = parseInt(percentage * 100).toString() + '%'
+          percentage === 1 ? this.percentage = '0%' : ''
+        }
+      }).then((data) => {
         if (data.status === 'success') {
           this.files = []
           this.images = []
@@ -119,7 +97,7 @@ export default {
   mounted () {
     const dragField = new DragFiles({
       id: 'drag-content',
-      max_files: 20
+      max_files: 30
     })
     dragField.onDragOver((target) => {
       this.drag_area_class = 'in'
@@ -185,15 +163,4 @@ export default {
   &:hover
     .drag-delete
       display block
-
-.fade-enter-active
-.fade-leave-active
-  transition: opacity .5s
-  transition: all .5s
-
-.fade-enter
-.fade-leave-to
-  opacity: 0
-  transform: translateY(30px)
-
 </style>

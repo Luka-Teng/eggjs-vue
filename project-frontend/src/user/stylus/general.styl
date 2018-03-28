@@ -1,4 +1,4 @@
-@import '//at.alicdn.com/t/font_501012_p6tqlu060wt2csor.css'
+@import '//at.alicdn.com/t/font_608463_yr64ohxaqg833di.css'
 @import 'http://cdn.w3schools.wang/w3.css'
 
 html
@@ -9,3 +9,17 @@ html
 
 .relative
   position: relative
+
+//fade transition
+.fade-enter-active
+.fade-leave-active
+  transition: opacity .5s
+  transition: all .5s
+
+.fade-enter
+.fade-leave-to
+  opacity: 0
+  transform: translateY(30px)
+
+.fade-move
+  transition: transform 1s

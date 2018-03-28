@@ -1,5 +1,6 @@
 'use strict';
 const Controller = require('egg').Controller
+const path = require('path')
 
 class PictureController extends Controller {
   // upload the pictures
@@ -59,12 +60,12 @@ class PictureController extends Controller {
         return async function () {
           let result = await ctx.model.Picture.destroy({
             where: {
-              id: user_id,
+              user_id: user_id,
               url: url
             }
           })
           if (result > 0) {
-            ctx.service.removePicture(url)
+            ctx.service.picture.removePicture(url)
           }
         }
       })
