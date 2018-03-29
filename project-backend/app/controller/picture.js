@@ -49,12 +49,14 @@ class PictureController extends Controller {
       urls: {
         type: 'array',
         required: true,
-        itemType: 'string'
+        itemType: 'string',
+        min: 1
       }
     }
     try {
       ctx.validate(rule)
       const urls = ctx.request.body.urls
+      //
       // 创建异步函数集
       const async_funcs = urls.map((url) => {
         return async function () {
