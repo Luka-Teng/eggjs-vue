@@ -8,24 +8,24 @@
         div(class="w3-col s9")
           ul(class="w3-navbar")
             li
-              router-link(:to="{name: 'show_gallery'}" v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Show Gallery
+              router-link(:to="{name: 'show_gallery'}", v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Show Gallery
             li
-              router-link(:to="{name: 'upload_picture'}" v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Picture
+              router-link(:to="{name: 'upload_picture'}", v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Picture
             li
-              router-link(:to="{name: 'user_login'}" v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") login
+              router-link(:to="{name: 'user_login'}", v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") login
             li
-              router-link(:to="{name: 'user_signup'}" v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") signup
+              router-link(:to="{name: 'user_signup'}", v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") signup
             li
-              a(href="javascript:void(0)" @click="_logout" v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") logout
+              a(href="javascript:void(0)" @click="_logout", v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") logout
 
     // 显示csrftoken和用户登录信息
     div(class="w3-row w3-margin-top")
       div(class="w3-half")
-        div(class="w3-container w3-pale-blue w3-leftbar w3-border-green" style="height:140px")
+        div(class="w3-container w3-pale-blue w3-leftbar w3-border-green", style="height:140px")
           h3 CSRF TOKEN
           p {{csrf_token_or_null}}
       div(class="w3-half")
-        div(class="w3-container w3-pale-blue w3-leftbar w3-border-green" style="height:140px")
+        div(class="w3-container w3-pale-blue w3-leftbar w3-border-green", style="height:140px")
           h3 USER Info
           p {{user_info_or_null}}
 

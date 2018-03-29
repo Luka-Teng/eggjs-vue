@@ -6,16 +6,16 @@
       br
       p
         label(class="w3-text-grey") name
-        input(class="w3-input" v-model="name")
+        input(class="w3-input", v-model="name")
       p
         label(class="w3-text-grey") age
-        input(class="w3-input" v-model="age")
+        input(class="w3-input", v-model="age")
       p
         label(class="w3-text-grey") email
-        input(class="w3-input" v-model="email")
+        input(class="w3-input", v-model="email")
       p
         label(class="w3-text-grey") password
-        input(class="w3-input" v-model="password")
+        input(class="w3-input", v-model="password")
       p
         a(class="w3-btn w3-padding w3-teal" @click="submit") Submit
 </template>

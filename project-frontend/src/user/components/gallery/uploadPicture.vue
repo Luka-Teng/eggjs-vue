@@ -4,22 +4,22 @@
       h2 Upload Pictures
     div(class="w3-container w3-card-4 w3-padding-bottom")
       div(class="w3-row")
-        div(class="w3-col s3 w3-padding-medium" v-for="tag in tags")
-          <input class="w3-radio" type="radio" name="tags" :value="tag" v-model="selected_tag">
-          <label class="w3-validate">{{tag}}</label>
+        div(class="w3-col s3 w3-padding-medium", v-for="tag in tags")
+          input(class="w3-radio", type="radio", name="tags", :value="tag", v-model="selected_tag")
+          label(class="w3-validate") {{tag}}
       div(class="w3-row w3-section-12 w3-padding-left")
-        div(id="drag-content" v-bind:class="[drag_area_class]")
+        div(id="drag-content", :class="[drag_area_class]")
           div(class="drag-icon") +
-        div(style="float: left;width: calc(100% - 550px);text-align: center;margin-top: 65px;")
-          <a class="w3-btn w3-xxlarge w3-teal" @click="upload">UPLOAD</a>
+        div(style="float:left;width:calc(100% - 550px);text-align:center;margin-top:65px;")
+          a(class="w3-btn w3-xxlarge w3-teal", @click="upload") UPLOAD
       div(class="w3-row w3-section-12 w3-padding-left")
-        progress_bar(v-bind:percentage="percentage")
+        progress_bar(:percentage="percentage")
       div(class="w3-row")
-        div(class="w3-col w3-padding" style="column-count:3")
+        div(class="w3-col w3-padding", style="column-count:3")
           transition-group(name="fade")
-            div(class="img-wrapper relative w3-round w3-border w3-margin-bottom" v-for="image in images" v-bind:key="image.id")
-              img(v-bind:src="image.src" class="img-responsive" @click="modal.show(image.src)")
-              <a class="w3-btn w3-tiny w3-red drag-delete" @click="onDelete(image.id)">DELETE</a>
+            div(class="img-wrapper relative w3-round w3-border w3-margin-bottom", v-for="image in images", :key="image.id")
+              img(:src="image.src", class="img-responsive", @click="modal.show(image.src)")
+              a(class="w3-btn w3-tiny w3-red drag-delete", @click="onDelete(image.id)") DELETE
 </template>
 
 <script>

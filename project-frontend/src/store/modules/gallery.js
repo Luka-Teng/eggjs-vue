@@ -113,7 +113,7 @@ const actions = {
   // 获取图片, from是图片的index，limit是图片数
   @loading
   @checkSession
-  async loadPictures (context, {from, limit}) {
+  async loadPictures (context, {from, limit, type}) {
     try {
       const result = await axios({
         url: apis.gallery_get_pictures,
@@ -122,7 +122,9 @@ const actions = {
         withCredentials: true
       })
       if (result.data.status === 'success') {
-        context.commit('set_gallery', result.data.msg)
+        // 判断是增加还是重新赋值, type = 'set' or 'add'
+        type = type || 'set'
+        type === 'set' ? context.commit('set_gallery', result.data.msg) : context.commit('add_gallery', result.data.msg)
         return {
           status: 'success',
           msg: 'get the pictures successfully',
