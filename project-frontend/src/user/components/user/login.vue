@@ -9,7 +9,7 @@
         input(class="w3-input", v-model="email")
       p
         label(class="w3-text-grey") password
-        input(class="w3-input", v-model="password")
+        input(class="w3-input", v-model="password", type="password")
       p
         a(class="w3-btn w3-padding w3-teal", @click="submit") Submit
 </template>

@@ -3,16 +3,21 @@
     div(class="w3-container w3-teal")
       h2 Upload Pictures
     div(class="w3-container w3-card-4 w3-padding-bottom")
-      div(class="w3-row")
-        div(class="w3-col s3 w3-padding-medium", v-for="tag in tags")
-          input(class="w3-radio", type="radio", name="tags", :value="tag", v-model="selected_tag")
-          label(class="w3-validate") {{tag}}
-      div(class="w3-row w3-section-12 w3-padding-left")
+      div(class="w3-row w3-padding w3-margin")
+        ul(class="w3-ul w3-card-2 w3-margin-top")
+          li(class="w3-padding-16")
+            img(src="http://cdn.w3schools.wang/img_avatar3.png", class="w3-left w3-circle w3-margin-right", style="width:39px")
+            a(class="w3-round w3-btn w3-large w3-orange w3-text-white w3-margin-right", @click="upload")
+              i(class="iconfont icon-quanxuan", style="font-size:18px") &nbsp;&nbsp;
+              span UPLOAD
+          div(class="w3-row w3-padding")
+            div(class="w3-col s2 w3-padding-medium", v-for="tag in tags")
+              input(class="w3-radio", type="radio", :id="tag", name="tag", :value="tag", v-model="selected_tag")
+              label(class="w3-validate", :for="tag") {{tag}}
+      div(class="w3-row w3-section-12 w3-padding w3-margin")
         div(id="drag-content", :class="[drag_area_class]")
           div(class="drag-icon") +
-        div(style="float:left;width:calc(100% - 550px);text-align:center;margin-top:65px;")
-          a(class="w3-btn w3-xxlarge w3-teal", @click="upload") UPLOAD
-      div(class="w3-row w3-section-12 w3-padding-left")
+      div(class="w3-row w3-section-12 w3-padding w3-margin")
         progress_bar(:percentage="percentage")
       div(class="w3-row")
         div(class="w3-col w3-padding", style="column-count:3")
@@ -137,7 +142,7 @@ export default {
 
 <style lang="stylus">
 #drag-content
-  width 550px
+  width 100%
   height 225px
   border-radius 5px
   border 1px solid #aaa
