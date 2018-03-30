@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import user from './modules/user'
 import tool from './modules/tool'
 import gallery from './modules/gallery'
+import post from './modules/post'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
   modules: {
     user,
     tool,
-    gallery
+    gallery,
+    post
   }
 })

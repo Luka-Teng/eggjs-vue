@@ -17,8 +17,7 @@ export default {
     {
       path: '/showGallery',
       name: 'show_gallery',
-      component: show_gallery,
-      beforeEnter: auth
+      component: show_gallery
     }
   ]
 }

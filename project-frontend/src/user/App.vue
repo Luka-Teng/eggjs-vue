@@ -12,6 +12,8 @@
             li
               router-link(:to="{name: 'upload_picture'}", v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Picture
             li
+              router-link(:to="{name: 'upload_post'}", v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Post
+            li
               router-link(:to="{name: 'user_login'}", v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") login
             li
               router-link(:to="{name: 'user_signup'}", v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") signup
@@ -53,7 +55,6 @@
 <script>
 // 引入vuex
 import {mapGetters, mapActions} from 'vuex'
-
 export default {
   computed: {
     ...mapGetters({

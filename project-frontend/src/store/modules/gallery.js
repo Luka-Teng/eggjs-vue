@@ -112,14 +112,12 @@ const actions = {
 
   // 获取图片, from是图片的index，limit是图片数
   @loading
-  @checkSession
   async loadPictures (context, {from, limit, type}) {
     try {
       const result = await axios({
         url: apis.gallery_get_pictures,
         method: 'get',
-        params: {from, limit},
-        withCredentials: true
+        params: {from, limit}
       })
       if (result.data.status === 'success') {
         // 判断是增加还是重新赋值, type = 'set' or 'add'

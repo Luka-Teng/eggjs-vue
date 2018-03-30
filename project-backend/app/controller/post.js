@@ -27,7 +27,7 @@ class PostController extends Controller {
         title: ctx.request.body.title,
         content: ctx.request.body.content
       }
-      const post = ctx.model.Post.create(params)
+      const post = await ctx.model.Post.create(params)
       if (post) {
         ctx.body = {
           status: 'success',
@@ -63,7 +63,7 @@ class PostController extends Controller {
       const params = {
         id: ctx.request.body.id
       }
-      const result = ctx.model.Post.destroy({where: params})
+      const result = await ctx.model.Post.destroy({where: params})
       if (result) {
         ctx.body = {
           status: 'success',
