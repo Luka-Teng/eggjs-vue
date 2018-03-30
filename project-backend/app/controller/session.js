@@ -26,7 +26,7 @@ class SessionController extends Controller {
     // 数据库操作
     try {
       ctx.validate(rule)
-      const data = {
+      const params = {
         name: ctx.request.body.name,
         age: ctx.request.body.age,
         email: ctx.request.body.email,

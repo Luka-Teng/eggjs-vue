@@ -117,7 +117,8 @@ class PictureController extends Controller {
   // 获取图片
   async getPictures () {
     const {ctx} = this
-    const user_id = ctx.user.id
+    // 默认展现主用户
+    const user_id = 1
     // 字段验证
     const rule = {
       from: {

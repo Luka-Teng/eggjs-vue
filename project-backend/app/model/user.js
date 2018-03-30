@@ -33,7 +33,8 @@ module.exports = app => {
   })
 
   User.associate = function() {
-      app.model.User.hasMany(app.model.Picture, { as: 'picture', foreignKey: 'user_id', targetKey: 'id'});
+      app.model.User.hasMany(app.model.Picture, { as: 'picture', foreignKey: 'user_id', targetKey: 'id'})
+      app.model.User.hasMany(app.model.Post, { as: 'post', foreignKey: 'user_id', targetKey: 'id'})
   }
 
   //添加类方法, 不要用箭头函数，会改变this的指向

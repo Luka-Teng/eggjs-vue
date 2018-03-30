@@ -50,5 +50,17 @@ module.exports = app => {
   router.get('/tags', controller.picture.tags)
 
   // 获取图片
-  router.get('/getPictures', auth, controller.picture.getPictures)
+  router.get('/getPictures', controller.picture.getPictures)
+
+  // 上传文章
+  router.post('/uploadPost', auth, controller.post.uploadPost)
+
+  // 删除文章
+  router.post('/removePost', auth, controller.post.removePost)
+
+  // 获取文章
+  router.get('/getPosts', controller.post.getPosts)
+
+  // 获取单篇文章
+  router.get('/getPost/:id', controller.post.getPost)
 };
