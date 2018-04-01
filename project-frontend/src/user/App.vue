@@ -14,6 +14,8 @@
             li
               router-link(:to="{name: 'upload_post'}", v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Post
             li
+              router-link(:to="{name: 'post_index'}", v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Posts List
+            li
               router-link(:to="{name: 'user_login'}", v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") login
             li
               router-link(:to="{name: 'user_signup'}", v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") signup
