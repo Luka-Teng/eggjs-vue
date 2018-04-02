@@ -1,16 +1,19 @@
 <template lang="jade">
   div
-    div(class="w3-container w3-teal")
+    div(class="w3-container w3-khaki top-round")
       h2 Show Gallery
     div(class="w3-container w3-card-4 w3-padding-bottom")
       div(class="w3-row w3-padding w3-margin")
         ul(class="w3-ul w3-card-2 w3-margin-top")
           li(class="w3-padding-16")
             img(src="http://cdn.w3schools.wang/img_avatar3.png", class="w3-left w3-circle w3-margin-right", style="width:39px")
-            a(class="w3-round w3-btn w3-large w3-orange w3-text-white w3-margin-right", @click="checkAll")
+            a(class="w3-round w3-btn w3-large w3-grey w3-text-white w3-margin-right", v-if="!user_info")
+              i(class="iconfont icon-quanxuan", style="font-size:18px") &nbsp;&nbsp;
+              span DISABLED
+            a(class="w3-round w3-btn w3-large w3-orange w3-text-white w3-margin-right", @click="checkAll", v-if="user_info")
               i(class="iconfont icon-quanxuan", style="font-size:18px") &nbsp;&nbsp;
               span CHECK ALL
-            a(class="w3-round w3-btn w3-large w3-red", @click="onDelete")
+            a(class="w3-round w3-btn w3-large w3-red", @click="onDelete", v-if="user_info")
               i(class="iconfont icon-cry", style="font-size:18px") &nbsp;&nbsp;
               span DELETE
           div(class="w3-row w3-padding")
@@ -63,7 +66,8 @@ export default {
   computed: {
     ...mapGetters({
       gallery_shown: 'gallery_shown',
-      tags: 'tags'
+      tags: 'tags',
+      user_info: 'user_info'
     })
   },
   methods: {

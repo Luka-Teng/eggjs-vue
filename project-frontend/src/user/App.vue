@@ -1,46 +1,54 @@
 <template lang="jade">
   #app(class="w3-margin-bottom")
     // 头部导航栏
-    div(class="w3-container w3-blue")
-      div(class="w3-row")
+    div
+      div(class="w3-row w3-container w3-khaki")
         div(class="w3-col s3")
-          div(class="w3-padding-12") LUKA Personal site
+          div(class="w3-padding-12")
+            i.iconfont.icon-optinmonster &nbsp;&nbsp;
+            router-link(:to="{name: 'home'}") LUKA Personal site
         div(class="w3-col s9")
           ul(class="w3-navbar")
             li
-              router-link(:to="{name: 'show_gallery'}", v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Show Gallery
+              router-link(:to="{name: 'show_gallery'}", class="w3-padding-12 w3-hover-text-purple w3-hover-white") Show Gallery
             li
-              router-link(:to="{name: 'upload_picture'}", v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Picture
+              router-link(:to="{name: 'upload_picture'}", v-if="user_info", class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Picture
             li
-              router-link(:to="{name: 'upload_post'}", v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Post
+              router-link(:to="{name: 'upload_post'}", v-if="user_info", class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Post
             li
-              router-link(:to="{name: 'post_index'}", v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") Posts List
-            li
-              router-link(:to="{name: 'user_login'}", v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") login
-            li
-              router-link(:to="{name: 'user_signup'}", v-if="!user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") signup
-            li
-              a(href="javascript:void(0)" @click="_logout", v-if="user_info" class="w3-padding-12 w3-hover-text-purple w3-hover-white") logout
-
-    // 显示csrftoken和用户登录信息
-    div(class="w3-row w3-margin-top")
-      div(class="w3-half")
-        div(class="w3-container w3-pale-blue w3-leftbar w3-border-green", style="height:140px")
-          h3 CSRF TOKEN
-          p {{csrf_token_or_null}}
-      div(class="w3-half")
-        div(class="w3-container w3-pale-blue w3-leftbar w3-border-green", style="height:140px")
-          h3 USER Info
-          p {{user_info_or_null}}
+              router-link(:to="{name: 'post_index'}", class="w3-padding-12 w3-hover-text-purple w3-hover-white") Posts List
+            li.pull-right
+              a(title="toggle", href="javascript:void(0)" @click="basic_data_show = !basic_data_show", class="w3-padding-12 w3-hover-text-purple")
+                i.iconfont.icon-toggle-on
+            li.pull-right
+              router-link(title="login", :to="{name: 'user_login'}", v-if="!user_info", class="w3-padding-12 w3-hover-text-purple w3-hover-white")
+                i.iconfont.icon-denglu
+            li.pull-right
+              router-link(title="sign up", :to="{name: 'user_signup'}", v-if="!user_info", class="w3-padding-12 w3-hover-text-purple w3-hover-white")
+                i.iconfont.icon-iconzhucetouxiang
+            li.pull-right
+              a(title="logout", href="javascript:void(0)", @click="_logout", v-if="user_info", class="w3-padding-12 w3-hover-text-purple w3-hover-white")
+                i.iconfont.icon-zhuxiao
+      // 显示csrftoken和用户登录信息
+      transition(name="slide-fade")
+        div(id="basic-data", class="w3-row", v-if="basic_data_show")
+          div(class="w3-half")
+            div(class="w3-container w3-light-blue  w3-leftbar w3-border-blue-grey", style="height:140px")
+              h3 CSRF TOKEN
+              p {{csrf_token_or_null}}
+          div(class="w3-half")
+            div(class="w3-container w3-light-blue w3-leftbar w3-border-blue-grey", style="height:140px")
+              h3 USER Info
+              p {{user_info_or_null}}
 
     // 显示用户头像和路由信息
-    div(class="w3-container")
+    div(style="padding:0px 20px")
       div(class="w3-row w3-margin-top")
         div(class="w3-col s3")
           div(class="w3-card-4")
-            header(class="w3-blue w3-container")
+            header(class="w3-khaki w3-container")
               h1 PROFILE
-            img(class="img-responsive w3-hover-opacity" src="http://cdn.w3schools.wang/img_avatar3.png")
+            img(class="img-responsive w3-hover-opacity" src="./assets/luka.jpg")
             div(class="w3-container")
               h4
                 b LUKA
@@ -58,6 +66,11 @@
 // 引入vuex
 import {mapGetters, mapActions} from 'vuex'
 export default {
+  data () {
+    return {
+        basic_data_show: false
+    }
+  },
   computed: {
     ...mapGetters({
       csrf_token: 'csrf_token',
@@ -87,5 +100,4 @@ export default {
 </script>
 
 <style lang="stylus">
-
 </style>

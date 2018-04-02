@@ -112,7 +112,7 @@ const actions = {
 
   // 获取图片, from是图片的index，limit是图片数
   @loading
-  async loadPictures (context, {from, limit, type}) {
+  async loadPictures (context, {from, limit, type} = {from: 0, limit: 10, type: 'set'}) {
     try {
       const result = await axios({
         url: apis.gallery_get_pictures,

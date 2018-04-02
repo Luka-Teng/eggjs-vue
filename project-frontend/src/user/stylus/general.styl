@@ -1,4 +1,4 @@
-@import '//at.alicdn.com/t/font_608463_yr64ohxaqg833di.css'
+@import '//at.alicdn.com/t/font_608463_ppysewmsb7vf5hfr.css'
 @import 'http://cdn.w3schools.wang/w3.css'
 
 html
@@ -10,7 +10,7 @@ html
 .relative
   position: relative
 
-//fade transition
+// fade transition
 .fade-enter-active
 .fade-leave-active
   transition: opacity .5s
@@ -23,3 +23,41 @@ html
 
 .fade-move
   transition: transform 1s
+
+// slide-fade transition
+.slide-fade-enter-active {
+  transition: all 0.5s
+}
+.slide-fade-leave-active {
+  transition: all 0.5s
+}
+.slide-fade-enter, .slide-fade-leave-to{
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+.pull-right
+  float: right !important
+
+.pull-left
+  float: left !important
+
+a
+  text-decoration none
+
+.top-round
+  border-radius 4px 4px 0px 0px !important
+
+.w3-container
+  background-color: #fff
+
+html
+  background-image url("../assets/monster1.png")
+  background-repeat no-repeat
+  background-position 0px calc(100% + 63px)
+  min-height:100%
+
+body
+  background-image url("../assets/monster1.jpg")
+  background-repeat no-repeat
+  background-position calc(100% + 61px) calc(100% + 61px);

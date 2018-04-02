@@ -1,6 +1,6 @@
 <template lang="jade">
-  div
-    div(class="w3-container w3-teal")
+  div.w3-round
+    div(class="w3-container w3-khaki top-round")
       h2 Upload Pictures
     div(class="w3-container w3-card-4 w3-padding-bottom")
       div(class="w3-row w3-padding w3-margin")

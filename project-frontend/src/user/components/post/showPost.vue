@@ -1,9 +1,9 @@
 <template lang="jade">
-  div.w3-card-4.w3-animate-right
-    header.w3-container.w3-teal
+  div.w3-card-4.w3-animate-right(v-if="post")
+    header.w3-container.w3-khaki
       h2 {{post.title}}
     div.w3-container#post-content(v-html="post.content")
-    footer.w3-container.w3-teal
+    footer.w3-container.w3-khaki
       h6(style="text-align:right") {{post.created_at | getDate}}
 </template>
 
