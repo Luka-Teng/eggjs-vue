@@ -33,11 +33,11 @@
       transition(name="slide-fade")
         div(id="basic-data", class="w3-row", v-if="basic_data_show")
           div(class="w3-half")
-            div(class="w3-container w3-light-blue  w3-leftbar w3-border-blue-grey", style="height:140px")
+            div(class="w3-container w3-pale-yellow  w3-leftbar w3-border-blue-grey", style="height:140px")
               h3 CSRF TOKEN
               p {{csrf_token_or_null}}
           div(class="w3-half")
-            div(class="w3-container w3-light-blue w3-leftbar w3-border-blue-grey", style="height:140px")
+            div(class="w3-container w3-pale-yellow w3-leftbar w3-border-blue-grey", style="height:140px")
               h3 USER Info
               p {{user_info_or_null}}
 
