@@ -31,6 +31,10 @@ class ShowImage {
     this.image.src = src
     this.modal.style.display = 'block'
   }
+
+  remove () {
+    document.body.removeChild(this.modal)
+  }
 }
 
 class BottomLoad {

@@ -1,6 +1,6 @@
 <template lang="jade">
   div
-    div(class="w3-container w3-khaki w3-round")
+    div(class="w3-container w3-blue-grey w3-round")
       h2 UPLOAD POST
     div(class="w3-container w3-card-4")
       br
@@ -12,7 +12,7 @@
         p.margin
         editor(api-key="3uoeyzn6541iobosjpa3hy1nzpm7yof22a4huwxhrrqc8f9u", :init="{plugins: 'wordcount', height: 400}", v-model="content")
       p
-        a(class="w3-btn w3-padding w3-khaki", @click="onUpload") Submit
+        a(class="w3-btn w3-padding w3-blue-grey", @click="onUpload") Submit
 </template>
 
 <script>
@@ -49,5 +49,5 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus"  scoped>
 </style>

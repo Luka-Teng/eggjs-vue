@@ -1,6 +1,6 @@
 <template lang="jade">
   div
-    div(class="w3-container w3-khaki")
+    div(class="w3-container w3-blue-grey")
       h2 Posts List
     div(class="w3-container w3-card-4 w3-padding-0")
       ul(class="w3-ul w3-card-2")
@@ -10,7 +10,7 @@
             span.w3-xlarge {{post.title}}
             br
             span {{post.created_at | getDate}}
-          div.w3-col.s2(style="padding-top:10px; text-align:center")
+          div.w3-col.s2(style="padding-top:10px; text-align:center" v-if="user_info")
             a.w3-round-xxlarge.w3-btn.w3-red(href="javascript:void(0)", @click="onRemove(post.id)")
               i.icon-delete.iconfont
       pagination(:curr_page="curr_page", :max_page="max_page", @paginationEvent="toPage")
@@ -30,11 +30,15 @@ export default {
   },
   computed: {
     ...mapGetters({
-      posts: 'posts'
+      posts: 'posts',
+      user_info: 'user_info'
     }),
     from () {
       return parseInt((this.curr_page - 1) * this.limit)
     }
+  },
+  components: {
+    pagination
   },
   methods: {
     ...mapActions({
@@ -84,6 +88,6 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus"  scoped>
 
 </style>

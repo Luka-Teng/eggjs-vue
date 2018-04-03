@@ -1,8 +1,9 @@
 <template lang="jade">
   #app(class="w3-margin-bottom")
+    canvas
     // 头部导航栏
     div
-      div(class="w3-row w3-container w3-khaki")
+      div(class="w3-row w3-container w3-light-grey")
         div(class="w3-col s3")
           div(class="w3-padding-12")
             i.iconfont.icon-optinmonster &nbsp;&nbsp;
@@ -10,7 +11,7 @@
         div(class="w3-col s9")
           ul(class="w3-navbar")
             li
-              router-link(:to="{name: 'show_gallery'}", class="w3-padding-12 w3-hover-text-purple w3-hover-white") Show Gallery
+              router-link(:to="{name: 'show_gallery'}", class="w3-padding-12 w3-hover-text-purple w3-hover-white") Gallery
             li
               router-link(:to="{name: 'upload_picture'}", v-if="user_info", class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Picture
             li
@@ -46,13 +47,14 @@
       div(class="w3-row w3-margin-top")
         div(class="w3-col s3")
           div(class="w3-card-4")
-            header(class="w3-khaki w3-container")
+            header(class="w3-light-grey w3-container")
               h1 PROFILE
             img(class="img-responsive w3-hover-opacity" src="./assets/luka.jpg")
             div(class="w3-container")
               h4
                 b LUKA
-              p A bad guy!
+              p Contact me: 15000900635
+              p Maybe a front end engineer :)
         div(class="w3-col s9 w3-padding-left")
           router-view
 
@@ -68,7 +70,7 @@ import {mapGetters, mapActions} from 'vuex'
 export default {
   data () {
     return {
-        basic_data_show: false
+      basic_data_show: false
     }
   },
   computed: {
@@ -95,9 +97,66 @@ export default {
         }
       })
     }
+  },
+  mounted () {
+    // 来自evan you的点击特效 from: http://evanyou.me/
+    document.addEventListener('touchmove', function (e) {
+        e.preventDefault()
+    })
+    var c = document.getElementsByTagName('canvas')[0],
+        x = c.getContext('2d'),
+        pr = window.devicePixelRatio || 1,
+        w = window.innerWidth,
+        h = window.innerHeight,
+        f = 90,
+        q,
+        m = Math,
+        r = 0,
+        u = m.PI*2,
+        v = m.cos,
+        z = m.random
+    c.width = w*pr
+    c.height = h*pr
+    x.scale(pr, pr)
+    x.globalAlpha = 0.6
+    function i(){
+        x.clearRect(0,0,w,h)
+        q=[{x:0,y:h*.7+f},{x:0,y:h*.7-f}]
+        while(q[1].x<w+f) d(q[0], q[1])
+    }
+    function d(i,j){
+        x.beginPath()
+        x.moveTo(i.x, i.y)
+        x.lineTo(j.x, j.y)
+        var k = j.x + (z()*2-0.25)*f,
+            n = y(j.y)
+        x.lineTo(k, n)
+        x.closePath()
+        r-=u/-50
+        x.fillStyle = '#'+(v(r)*127+128<<16 | v(r+u/3)*127+128<<8 | v(r+u/3*2)*127+128).toString(16)
+        x.fill()
+        q[0] = q[1]
+        q[1] = {x:k,y:n}
+    }
+    function y(p){
+        var t = p + (z()*2-1.1)*f
+        return (t>h||t<0) ? y(p) : t
+    }
+    document.onclick = i
+    document.ontouchstart = i
+    i()
   }
 }
 </script>
 
 <style lang="stylus">
+canvas {
+    position: absolute;
+    top: 200px;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 60%;
+    pointer-events: none;
+}
 </style>

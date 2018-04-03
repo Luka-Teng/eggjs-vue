@@ -1,6 +1,6 @@
 <template lang="jade">
   div
-    div(class="w3-container w3-khaki top-round")
+    div(class="w3-container w3-blue-grey top-round")
       h2 Show Gallery
     div(class="w3-container w3-card-4 w3-padding-bottom")
       div(class="w3-row w3-padding w3-margin")
@@ -26,7 +26,8 @@
             div(class="img-wrapper relative w3-padding",
               v-for="image in taggedPictures(selected_tags)",
               :key="image.id",
-              :class="{selected: isSelected(image.url)}")
+              :class="{selected: isSelected(image.url)}",
+              style="text-align: center")
               img(:src="toUrl(image.url)", class="w3-round img-responsive", @click="modal.show(toUrl(image.url))")
               template(v-if="isSelected(image.url)")
                 a(class="w3-btn w3-medium pic-select w3-round w3-red", @click="onSelected(image.url)") UNSELECT
@@ -138,11 +139,12 @@ export default {
   },
   beforeDestroy () {
     this.bottom_load.unbind()
+    this.modal.remove()
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus"  scoped>
 .img-wrapper
   .pic-select
     position absolute

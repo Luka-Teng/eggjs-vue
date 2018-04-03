@@ -1,6 +1,6 @@
 <template lang="jade">
   div
-    div(class="w3-container w3-khaki")
+    div(class="w3-container w3-blue-grey")
       h2 Sign Up
     div(class="w3-container w3-card-4")
       br
@@ -17,7 +17,7 @@
         label(class="w3-text-grey") password
         input(class="w3-input", v-model="password")
       p
-        a(class="w3-btn w3-padding w3-khaki" @click="submit") Submit
+        a(class="w3-btn w3-padding w3-blue-grey" @click="submit") Submit
 </template>
 
 <script>
@@ -65,5 +65,5 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 </style>

@@ -1,7 +1,7 @@
 <template  lang="jade">
   ul.w3-pagination.w3-border.w3-round.w3-margin-16
     li(v-for="index in max_page", :key="index")
-      a(:class="{'w3-teal': (curr_page === index)}", href="javascript:void(0)", @click="$emit('paginationEvent', index)") {{index}}
+      a(:class="{'w3-blue-grey': (curr_page === index)}", href="javascript:void(0)", @click="$emit('paginationEvent', index)") {{index}}
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template lang="jade">
   div.w3-round
-    div(class="w3-container w3-khaki top-round")
+    div(class="w3-container w3-blue-grey top-round")
       h2 Upload Pictures
     div(class="w3-container w3-card-4 w3-padding-bottom")
       div(class="w3-row w3-padding w3-margin")
@@ -22,7 +22,7 @@
       div(class="w3-row")
         div(class="w3-col w3-padding", style="column-count:3")
           transition-group(name="fade")
-            div(class="img-wrapper relative w3-round w3-border w3-margin-bottom", v-for="image in images", :key="image.id")
+            div(class="img-wrapper relative w3-round w3-border w3-margin-bottom", v-for="image in images", :key="image.id", style="text-align: center")
               img(:src="image.src", class="img-responsive", @click="modal.show(image.src)")
               a(class="w3-btn w3-tiny w3-red drag-delete", @click="onDelete(image.id)") DELETE
 </template>
@@ -136,11 +136,14 @@ export default {
         })
       }
     })
+  },
+  beforeDestroy () {
+    this.modal.remove()
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus"  scoped>
 #drag-content
   width 100%
   height 225px
