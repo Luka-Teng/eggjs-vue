@@ -53,6 +53,8 @@
             div(class="w3-container")
               h4
                 b LUKA
+                a(href="https://github.com/Luka-Teng", target="_blank", style="float:right")
+                  img(src="./assets/github.png", style="width:25px")
               p Contact me: 15000900635
               p Maybe a front end engineer :)
         div(class="w3-col s9 w3-padding-left")
@@ -156,7 +158,7 @@ canvas {
     left: 0;
     z-index: -1;
     width: 100%;
-    height: 60%;
+    height: 100%;
     pointer-events: none;
 }
 </style>
