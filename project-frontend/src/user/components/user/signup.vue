@@ -4,6 +4,9 @@
       h2 Sign Up
     div(class="w3-container w3-card-4")
       br
+      div.w3-container.w3-orange.w3-text-white(style="margin: -23px -16px auto -16px")
+        h3 Warning!
+        p Registration function is only used to test, and you need an admin account to experience specific features.
       p
         label(class="w3-text-grey") name
         input(class="w3-input", v-model="name")
