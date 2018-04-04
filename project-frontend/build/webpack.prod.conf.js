@@ -118,7 +118,7 @@ Object.keys(config.base.htmlWebpackPluginConfig).forEach(name => {
     filename: pluginConfig.filename,
     template: pluginConfig.template, //模板路径
     inject: pluginConfig.inject,
-    chunks: [name],
+    chunks: ['manifest', 'vendor', name],
     author: pluginConfig.author,
     minify: {
       removeComments: false,
