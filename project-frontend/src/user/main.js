@@ -19,7 +19,7 @@ Vue.component('flash', flash)
 
 Vue.config.productionTip = false
 // 获取后台服务器地址
-Vue.prototype.origin = 'http://localhost:7001'
+Vue.prototype.origin = 'http://39.106.120.26:5000'
 // 获取首屏地址
 Vue.prototype.in_path = location.pathname
 /* eslint-disable no-new */
