@@ -13,13 +13,15 @@ import flash from '@/common/flash'
 // 全局样式
 import './stylus/general.styl'
 
+import config from '@/config'
+
 // 全局组件
 Vue.component('loading', loading)
 Vue.component('flash', flash)
 
 Vue.config.productionTip = false
 // 获取后台服务器地址
-Vue.prototype.origin = 'http://localhost:7001'
+Vue.prototype.origin = config.server_host
 // 获取首屏地址
 Vue.prototype.in_path = location.pathname
 /* eslint-disable no-new */

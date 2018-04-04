@@ -1,7 +1,8 @@
 // 异步action的返回值以{status: true or false, msg: '...'}
 import {loading, flash, checkSession, loadingAndFlash} from '../decorator'
+import config from '@/config'
 // 所需要用到的api，后期可以分离
-const server_host = 'http://localhost:7001'
+const server_host = config.server_host
 const apis = {
   'gallery_upload': server_host + '/uploadPictures',
   'gallery_remove': server_host + '/removePictures',
