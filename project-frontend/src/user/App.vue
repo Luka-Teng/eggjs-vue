@@ -101,10 +101,12 @@ export default {
     }
   },
   mounted () {
-    // 来自evan you的点击特效 from: http://evanyou.me/
+    // 来自evan you的点击特效 from: http://evanyou.me
+	/*
     document.addEventListener('touchmove', function (e) {
         e.preventDefault()
     })
+	*/
     var c = document.getElementsByTagName('canvas')[0],
         x = c.getContext('2d'),
         pr = window.devicePixelRatio || 1,
