@@ -1,7 +1,7 @@
 <template lang="jade">
   div.w3-padding-left
     div.w3-container.w3-leftbar.w3-light-grey.w3-large.w3-animate-right.w3-card-2
-      p EDUCATION &nbsp;&nbsp;
+      p EDUCATION & JOBS &nbsp;&nbsp;
         i.iconfont.icon-optinmonster.w3-large
     luka_block(:line_left="get_line_left()", :deg="get_deg()", :block_left="get_block_left()", :line_top="get_line_top()")
       template(slot="header") 2011 ~ 2015
@@ -9,6 +9,9 @@
     luka_block(:line_left="get_line_left()", :deg="get_deg()", :block_left="get_block_left()", :line_top="get_line_top()")
       template(slot="header") 2014 ~ 2015
       template(slot="body") 吕贝克应用科技大学
+    luka_block(:line_left="get_line_left()", :deg="get_deg()", :block_left="get_block_left()", :line_top="get_line_top()")
+      template(slot="header") 2015 ~ 至今
+      template(slot="body") 诗禹（上海）信息技术有限公司
 
     div.w3-container.w3-leftbar.w3-light-grey.w3-large.w3-animate-right.w3-card-2(style="margin-top:25px")
       p ABILITY &nbsp;&nbsp;
@@ -66,16 +69,16 @@ export default {
   },
   methods: {
     get_line_top () {
-      return 20 + Math.random() * 10
+      return 20
     },
     get_line_left () {
-      return 20 + Math.random() * 30
+      return 20
     },
     get_deg () {
-      return 45 + Math.random() * 45
+      return 45
     },
     get_block_left () {
-      return Math.random() * 50
+      return 20
     }
   }
 }

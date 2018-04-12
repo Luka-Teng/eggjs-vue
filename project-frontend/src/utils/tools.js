@@ -10,7 +10,7 @@ class ShowImage {
   init () {
     // 创建外层div
     const outer_div = document.createElement('div')
-    outer_div.className = 'w3-modal'
+    outer_div.className = 'w3-modal text-center'
     outer_div.id = 'show_image'
     outer_div.onclick = function () {
       this.style.display = 'none'
@@ -21,7 +21,7 @@ class ShowImage {
     // 嵌套元素
     outer_div.appendChild(inner_div)
     inner_div.appendChild(this.image)
-    this.image.style = 'width:100%'
+    this.image.style = 'max-width:100%;max-height:500px;'
     // 指定modal
     this.modal = outer_div
     document.body.appendChild(this.modal)
