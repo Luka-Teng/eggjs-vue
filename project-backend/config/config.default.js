@@ -30,7 +30,7 @@ module.exports = appInfo => {
     csrf: {
       enable: true
     },
-    domainWhiteList: ['http://39.106.120.26:8080']
+    domainWhiteList: ['localhost:8080']
   }
 
   //允许不同域的请求携带cookies
