@@ -87,7 +87,7 @@ export default {
       }
     })(),
     getCropData (data, id) {
-      let image = this.images.findOne((image) => { return image.id === id})
+      let image = this.images.findOne((image) => { return image.id === id })
       if (image) {
         image.src = data
       }
