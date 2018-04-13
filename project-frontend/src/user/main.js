@@ -58,3 +58,13 @@ new Vue({
     })
   }
 })
+
+// 引入有用的全局方法，后期可分离
+// 从数组找到一个对应值, cb(value, index)
+Array.prototype.findOne = function (cb) {
+  for (let index in this) {
+    if (cb(this[index], index)) {
+      return this[index]
+    }
+  }
+}

@@ -24,7 +24,15 @@
           transition-group(name="fade")
             div(class="img-wrapper relative w3-round w3-border w3-margin-bottom", v-for="image in images", :key="image.id", style="text-align: center")
               img(:src="image.src", class="img-responsive", @click="modal.show(image.src)")
+              a(class="w3-btn w3-tiny w3-blue drag-edit", @click="onCropper(image.id)") CROPPER
               a(class="w3-btn w3-tiny w3-red drag-delete", @click="onDelete(image.id)") DELETE
+      cropperModal(
+        :img="cropper.img",
+        :show="cropper.show",
+        :id="cropper.id",
+        @hideCropper="cropper.show = false",
+        @onCropped = "getCropData"
+      )
 </template>
 
 <script>
@@ -36,6 +44,8 @@ import DragFiles from '@/utils/dragFiles'
 import {ShowImage} from '@/utils/tools'
 // progressbar组件
 import progress_bar from '@/common/progressBar'
+// 图片裁剪组件
+import cropperModal from '@/common/cropperModal'
 export default {
   data () {
     return {
@@ -43,6 +53,11 @@ export default {
       images: [],
       // 需要上传的formData
       files: [],
+      cropper: {
+        img: '',
+        show: false,
+        id: null
+      },
       drag_area_class: '',
       selected_tag: 'default',
       modal: new ShowImage(),
@@ -50,7 +65,8 @@ export default {
     }
   },
   components: {
-    progress_bar
+    progress_bar,
+    cropperModal
   },
   computed: {
     ...mapGetters({
@@ -64,6 +80,19 @@ export default {
       setLoading: 'setLoading',
       setFlash: 'setFlash'
     }),
+    auto_increment_id: (() => {
+      let id = 0
+      return () => {
+        return id++
+      }
+    })(),
+    getCropData (data, id) {
+      let image = this.images.findOne((image) => { return image.id === id})
+      if (image) {
+        image.src = data
+      }
+      this.cropper.show = false
+    },
     onDelete (id) {
       this.images.forEach((image, index) => {
         if (image.id === id) {
@@ -75,6 +104,14 @@ export default {
           this.files.splice(index, 1)
         }
       })
+    },
+    onCropper (id) {
+      this.cropper.show = true
+      let image = this.images.findOne((image) => { return image.id === id})
+      if (image) {
+        this.cropper.img = image.src
+        this.cropper.id = image.id
+      }
     },
     upload () {
       const formData = new FormData()
@@ -118,7 +155,7 @@ export default {
       } else {
         data.data.forEach((file) => {
           // 把拖拽的文件加入总文件
-          const id = this.files.length
+          let id = this.auto_increment_id()
           this.files.push({
             id: id,
             name: file.name,
@@ -168,7 +205,14 @@ export default {
     right 0px
     bottom 0px
     display none
+  .drag-edit
+    position absolute
+    right 0px
+    bottom 30px
+    display none
   &:hover
     .drag-delete
+      display block
+    .drag-edit
       display block
 </style>
