@@ -26,7 +26,7 @@ module.exports = appInfo => {
   }
 
   //开启csrf，跨域白名单
-  exports.security = {
+  config.security = {
     csrf: {
       enable: true
     },
@@ -34,11 +34,11 @@ module.exports = appInfo => {
   }
 
   //允许不同域的请求携带cookies
-  exports.cors = {
+  config.cors = {
     credentials: true
   }
 
-  exports.multipart = {
+  config.multipart = {
     files: 30
   };
 

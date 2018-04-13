@@ -14,7 +14,7 @@ module.exports = appInfo => {
   };
 
   //开启csrf，跨域白名单
-  exports.security = {
+  config.security = {
     csrf: {
       enable: true
     },
