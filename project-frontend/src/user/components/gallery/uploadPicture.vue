@@ -51,8 +51,6 @@ export default {
     return {
       // 图片的64进制码
       images: [],
-      // 需要上传的formData
-      files: [],
       cropper: {
         img: '',
         show: false,
@@ -80,6 +78,19 @@ export default {
       setLoading: 'setLoading',
       setFlash: 'setFlash'
     }),
+    // convett base64 to array buffer
+    convertDataURIToBinary (dataURI) {
+      let BASE64_MARKER = ';base64,'
+      let base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length
+      let base64 = dataURI.substring(base64Index)
+      let raw = window.atob(base64)
+      let rawLength = raw.length
+      let array = new Uint8Array(new ArrayBuffer(rawLength))
+      for(let i = 0; i < rawLength; i++) {
+        array[i] = raw.charCodeAt(i)
+      }
+      return array
+    },
     auto_increment_id: (() => {
       let id = 0
       return () => {
@@ -99,11 +110,6 @@ export default {
           this.images.splice(index, 1)
         }
       })
-      this.files.forEach((file, index) => {
-        if (file.id === id) {
-          this.files.splice(index, 1)
-        }
-      })
     },
     onCropper (id) {
       this.cropper.show = true
@@ -116,8 +122,8 @@ export default {
     upload () {
       const formData = new FormData()
       formData.append('tag_name', this.selected_tag)
-      this.files.forEach((file) => {
-        formData.append(file.name, file.file)
+      this.images.forEach((image) => {
+        formData.append(image.name, new File([this.convertDataURIToBinary(image.src)], image.name, {type: image.type}))
       })
       this.uploadPictures({
         data: formData,
@@ -154,19 +160,15 @@ export default {
         this.setFlash(data.msg)
       } else {
         data.data.forEach((file) => {
-          // 把拖拽的文件加入总文件
           let id = this.auto_increment_id()
-          this.files.push({
-            id: id,
-            name: file.name,
-            file: file.file
-          })
           // 将数据存储为base64
           const fileReader = new FileReader()
           fileReader.addEventListener('load', () => {
             this.images.push({
               src: fileReader.result,
-              id: id
+              id: id,
+              name: file.name,
+              type: file.type
             })
           })
           fileReader.readAsDataURL(file.file)

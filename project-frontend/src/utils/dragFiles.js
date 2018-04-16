@@ -93,6 +93,8 @@ class DragFiles {
         }
         this.files.push({
           name: file.name,
+          type: file.type,
+          size: file.size,
           file: file
         })
       }

@@ -6,7 +6,8 @@
         :img="img",
         :autoCrop="true",
         :autoCropWidth="500",
-        :autoCropHeight="500"
+        :autoCropHeight="500",
+        :original="true"
       )
       a(class="w3-btn w3-red del-cropper" @click="$emit('hideCropper')") X
       a(class="w3-btn w3-green confirm-cropper" @click="onConfirm") √
