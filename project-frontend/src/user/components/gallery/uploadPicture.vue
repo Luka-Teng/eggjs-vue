@@ -16,7 +16,7 @@
               label(class="w3-validate", :for="tag") {{tag}}
       div(class="w3-row w3-section-12 w3-padding w3-margin")
         div(id="drag-content", :class="[drag_area_class]")
-          div(class="drag-icon") +
+          div(class="drag-icon") Drag Files
       div(class="w3-row w3-section-12 w3-padding w3-margin")
         progress_bar(:percentage="percentage")
       div(class="w3-row")
@@ -198,8 +198,9 @@ export default {
   color #eee
 
 #drag-content > .drag-icon
-  font-size 116px
+  font-size 94px
   text-align center
+  line-height 225px
 
 .img-wrapper
   .drag-delete
