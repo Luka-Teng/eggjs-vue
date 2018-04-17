@@ -2,7 +2,7 @@
   div.w3-card-4.w3-animate-right(v-if="post")
     header.w3-container.w3-blue-grey
       h2 {{post.title}}
-    div.w3-container#post-content(v-html="post.content")
+    div.w3-container#post-content(data-luka="weimeidsg", v-html="post.content")
     footer.w3-container.w3-blue-grey
       h6(style="text-align:right") {{post.created_at | getDate}}
 </template>
@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style lang="stylus">
-#post-content
+#post-content[data-luka="weimeidsg"]
   h1
     font-size 25px
     margin-top 20px
