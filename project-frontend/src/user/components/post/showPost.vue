@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style lang="stylus">
-#post-content[data-luka="weimeidsg"]
+#post-content
   h1
     font-size 25px
     margin-top 20px
