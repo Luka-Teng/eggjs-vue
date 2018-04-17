@@ -8,7 +8,7 @@
       template(slot="body") 华东理工大学
     luka_block(:line_left="get_line_left()", :deg="get_deg()", :block_left="get_block_left()", :line_top="get_line_top()")
       template(slot="header") 2014 ~ 2015
-      template(slot="body") 吕贝克应用科技大学
+      template(slot="body") 吕贝克应用科技大学(交换生)
     luka_block(:line_left="get_line_left()", :deg="get_deg()", :block_left="get_block_left()", :line_top="get_line_top()")
       template(slot="header") 2015 ~ 至今
       template(slot="body") 诗禹（上海）信息技术有限公司
