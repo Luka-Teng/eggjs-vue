@@ -86,7 +86,7 @@ export default {
       let raw = window.atob(base64)
       let rawLength = raw.length
       let array = new Uint8Array(new ArrayBuffer(rawLength))
-      for(let i = 0; i < rawLength; i++) {
+      for (let i = 0; i < rawLength; i++) {
         array[i] = raw.charCodeAt(i)
       }
       return array
@@ -113,7 +113,7 @@ export default {
     },
     onCropper (id) {
       this.cropper.show = true
-      let image = this.images.findOne((image) => { return image.id === id})
+      let image = this.images.findOne((image) => { return image.id === id })
       if (image) {
         this.cropper.img = image.src
         this.cropper.id = image.id
