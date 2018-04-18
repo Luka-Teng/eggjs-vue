@@ -55,6 +55,9 @@ module.exports = app => {
   // 上传文章
   router.post('/uploadPost', auth, controller.post.uploadPost)
 
+  // 编辑文章
+  router.post('/editPost', auth, controller.post.editPost)
+
   // 删除文章
   router.post('/removePost', auth, controller.post.removePost)
 

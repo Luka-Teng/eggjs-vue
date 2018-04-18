@@ -12,14 +12,12 @@
         p.margin
         editor(:editorToolbar="customToolbar", v-model="content")
       p
-        a(class="w3-btn w3-padding w3-blue-grey", @click="onUpload") Submit
+        a(class="w3-btn w3-padding w3-blue-grey", @click="onEdit") Submit
 </template>
 
 <script>
 import { VueEditor } from 'vue2-editor'
-// 引入vuex
-import {mapActions} from 'vuex'
-
+import {mapGetters, mapActions} from 'vuex'
 export default {
   data () {
     return {
@@ -34,22 +32,37 @@ export default {
   },
   methods: {
     ...mapActions({
-      uploadPosts: 'uploadPosts'
+      getPost: 'getPost',
+      editPost: 'editPost'
     }),
-    onUpload () {
+    onEdit () {
       const payload = {
+        id: parseInt(this.$route.params.id),
         title: this.title,
         content: this.content
       }
-      this.uploadPosts(payload).then((data) => {
+      this.editPost(payload).then((data) => {
         if (data.status === 'success') {
-          this.$router.push(`/post/${data.data.id}`)
+          this.$router.push(`/post/${this.$route.params.id}`)
         }
       })
     }
   },
+  computed: {
+    ...mapGetters({
+      post: 'post'
+    }),
+  },
   components: {
     editor: VueEditor
+  },
+  created () {
+    this.getPost(this.$route.params.id).then((data) => {
+      if (data.status === 'success') {
+        this.title = this.post.title
+        this.content = this.post.content
+      }
+    })
   }
 }
 </script>

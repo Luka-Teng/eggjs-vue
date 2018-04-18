@@ -47,6 +47,51 @@ class PostController extends Controller {
     }
   }
 
+  // edit a post
+  async editPost () {
+    const {ctx} = this
+    // 字段验证
+    const rule = {
+      title: {
+        type: 'string',
+        require: true,
+        allowEmpty: false
+      },
+      content: {
+        type: 'string',
+        require: true,
+        allowEmpty: true
+      },
+      id: {
+        type: 'int',
+        require: true
+      }
+    }
+    try {
+      ctx.validate(rule)
+      const params = {
+        title: ctx.request.body.title,
+        content: ctx.request.body.content
+      }
+      const post = await ctx.model.Post.update(params, {where: {id: ctx.request.body.id}})
+      if (post) {
+        ctx.body = {
+          status: 'success',
+          msg: 'update the post successfully'
+        }
+      } else {
+        ctx.body = {
+          status: 'failed',
+          msg: 'failed to update the post'
+        }
+      }
+    } catch (e) {
+      ctx.body = {
+        status: 'failed',
+        msg: e
+      }
+    }
+  }
   // remove a post
   async removePost () {
     const {ctx} = this
