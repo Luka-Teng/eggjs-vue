@@ -52,4 +52,6 @@ export default {
     color #fff
     border-radius 3px
     font-family  Verdana,sans-serif
+  img
+    max-width 100%
 </style>
