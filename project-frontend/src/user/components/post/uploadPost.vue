@@ -10,7 +10,7 @@
       p
         label(class="w3-text-grey") Content
         p.margin
-        editor(:editorToolbar="customToolbar", v-model="content")
+        editor(:editorToolbar="customToolbar", v-model="content", :useCustomImageHandler="true", @imageAdded="handleImageAdded")
       p
         a(class="w3-btn w3-padding w3-blue-grey", @click="onUpload") Submit
 </template>
@@ -34,7 +34,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      uploadPosts: 'uploadPosts'
+      uploadPosts: 'uploadPosts',
+      uploadPostImage: 'uploadPostImage'
     }),
     onUpload () {
       const payload = {
@@ -44,6 +45,16 @@ export default {
       this.uploadPosts(payload).then((data) => {
         if (data.status === 'success') {
           this.$router.push(`/post/${data.data.id}`)
+        }
+      })
+    },
+    handleImageAdded (file, Editor, cursorLocation, resetUploader) {
+      var formData = new FormData()
+      formData.append('image', file)
+      this.uploadPostImage(formData).then((data) => {
+        if (data.status === 'success') {
+          Editor.insertEmbed(cursorLocation, 'image', this.origin + '/public/postImages/' + data.data)
+          resetUploader()
         }
       })
     }

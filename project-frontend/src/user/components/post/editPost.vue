@@ -10,7 +10,7 @@
       p
         label(class="w3-text-grey") Content
         p.margin
-        editor(:editorToolbar="customToolbar", v-model="content")
+        editor(:editorToolbar="customToolbar", v-model="content", :useCustomImageHandler="true", @imageAdded="handleImageAdded")
       p
         a(class="w3-btn w3-padding w3-blue-grey", @click="onEdit") Submit
 </template>
@@ -33,7 +33,8 @@ export default {
   methods: {
     ...mapActions({
       getPost: 'getPost',
-      editPost: 'editPost'
+      editPost: 'editPost',
+      uploadPostImage: 'uploadPostImage'
     }),
     onEdit () {
       const payload = {
@@ -46,12 +47,22 @@ export default {
           this.$router.push(`/post/${this.$route.params.id}`)
         }
       })
+    },
+    handleImageAdded (file, Editor, cursorLocation, resetUploader) {
+      var formData = new FormData()
+      formData.append('image', file)
+      this.uploadPostImage(formData).then((data) => {
+        if (data.status === 'success') {
+          Editor.insertEmbed(cursorLocation, 'image', this.origin + '/public/postImages/' + data.data)
+          resetUploader()
+        }
+      })
     }
   },
   computed: {
     ...mapGetters({
       post: 'post'
-    }),
+    })
   },
   components: {
     editor: VueEditor

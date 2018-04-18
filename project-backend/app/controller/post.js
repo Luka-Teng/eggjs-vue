@@ -222,6 +222,24 @@ class PostController extends Controller {
       }
     }
   }
+
+  // upload the post images
+  async uploadPostImage () {
+    const {ctx} = this
+    try {
+      const result = await ctx.service.post.savePostImage()
+      ctx.body = {
+        status: 'success',
+        msg: 'store the files successfully',
+        data: result
+      }
+    } catch (e) {
+      ctx.body = {
+        status: 'failed',
+        msg: e
+      }
+    }
+  }
 }
 
 module.exports = PostController

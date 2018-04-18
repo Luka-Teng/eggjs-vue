@@ -58,6 +58,9 @@ module.exports = app => {
   // 编辑文章
   router.post('/editPost', auth, controller.post.editPost)
 
+  // 插入文章图片
+  router.post('/uploadPostImage', auth, controller.post.uploadPostImage)
+
   // 删除文章
   router.post('/removePost', auth, controller.post.removePost)
 

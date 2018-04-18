@@ -8,7 +8,8 @@ const apis = {
   'post_remove': server_host + '/removePost',
   'post_get_posts': server_host + '/getPosts',
   'post_get_post': server_host + '/getPost',
-  'post_edit': server_host + '/editPost'
+  'post_edit': server_host + '/editPost',
+  'upload_post_image': server_host + '/uploadPostImage'
 }
 
 // 实现state的数据
@@ -91,6 +92,41 @@ const actions = {
         return {
           status: 'success',
           msg: 'have edit the post successfully'
+        }
+      } else {
+        return {
+          status: 'failed',
+          msg: result.data.msg
+        }
+      }
+    } catch (e) {
+      return {
+        status: 'failed',
+        msg: e.response.data.message
+      }
+    }
+  },
+
+  // upload post image
+  @loadingAndFlash
+  @checkSession
+  async uploadPostImage (context, payload) {
+    try {
+      const result = await axios({
+        url: apis.upload_post_image,
+        method: 'post',
+        data: payload,
+        withCredentials: true,
+        headers: {
+          'x-csrf-token': context.getters.csrf_token,
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+      if (result.data.status === 'success') {
+        return {
+          status: 'success',
+          msg: 'have upload the image successfully',
+          data: result.data.data
         }
       } else {
         return {
