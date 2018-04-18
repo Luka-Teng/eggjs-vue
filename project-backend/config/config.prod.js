@@ -18,7 +18,7 @@ module.exports = appInfo => {
     csrf: {
       enable: true
     },
-    domainWhiteList: ['39.106.120.26']
+    domainWhiteList: ['39.106.120.26', 'luka-test.cn']
   }
 
   return config;

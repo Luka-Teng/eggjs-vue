@@ -11,13 +11,19 @@
         div(class="w3-col s9")
           ul(class="w3-navbar")
             li
-              router-link(:to="{name: 'show_gallery'}", class="w3-padding-12 w3-hover-text-purple w3-hover-white") Gallery
+              div.w3-dropdown-hover
+                button.w3-btn.w3-light-grey(style="padding: 12px 16px;") PICTURE
+                div.w3-dropdown-content(style="box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.15);")
+                 router-link(:to="{name: 'show_gallery'}", class="w3-padding-12 w3-hover-text-grey w3-hover-light-grey") Gallery
+                 router-link(:to="{name: 'upload_picture'}", v-if="user_info", class="w3-padding-12 w3-hover-text-grey w3-hover-light-grey") Upload Picture
             li
-              router-link(:to="{name: 'upload_picture'}", v-if="user_info", class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Picture
+              div.w3-dropdown-hover
+               button.w3-btn.w3-light-grey(style="padding: 12px 16px;") POST
+               div.w3-dropdown-content(style="box-shadow: 0px 0px 3px 0px rgba(0,0,0,0.15);")
+                router-link(:to="{name: 'post_index'}", class="w3-padding-12 w3-hover-text-grey w3-hover-light-grey") Posts List
+                router-link(:to="{name: 'upload_post'}", v-if="user_info", class="w3-padding-12 w3-hover-text-grey w3-hover-light-grey") Upload Post
             li
-              router-link(:to="{name: 'upload_post'}", v-if="user_info", class="w3-padding-12 w3-hover-text-purple w3-hover-white") Upload Post
-            li
-              router-link(:to="{name: 'post_index'}", class="w3-padding-12 w3-hover-text-purple w3-hover-white") Posts List
+
             li.pull-right
               a(title="toggle", href="javascript:void(0)" @click="basic_data_show = !basic_data_show", class="w3-padding-12 w3-hover-text-purple")
                 i.iconfont.icon-toggle-on
