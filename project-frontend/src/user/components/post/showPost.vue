@@ -45,8 +45,8 @@ export default {
     margin 25px 0px
     color #555
     padding-left 24px
-  code
-    display inline-block
+  pre
+    display block
     padding 10px
     background #555
     color #fff

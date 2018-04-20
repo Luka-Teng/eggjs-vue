@@ -10,7 +10,7 @@
       p
         label(class="w3-text-grey") Content
         p.margin
-        editor(:editorToolbar="customToolbar", v-model="content", :useCustomImageHandler="true", @imageAdded="handleImageAdded")
+        editor(v-model="content", :useCustomImageHandler="true", @imageAdded="handleImageAdded")
       p
         a(class="w3-btn w3-padding w3-blue-grey", @click="onUpload") Submit
 </template>
