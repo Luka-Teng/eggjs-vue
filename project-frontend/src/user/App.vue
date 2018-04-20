@@ -4,11 +4,11 @@
     // 头部导航栏
     div
       div(class="w3-row w3-container w3-light-grey")
-        div(class="w3-col s3")
+        div(class="w3-col s12 m3")
           div(class="w3-padding-12")
             i.iconfont.icon-optinmonster &nbsp;&nbsp;
             router-link(:to="{name: 'home'}") LUKA Personal site
-        div(class="w3-col s9")
+        div(class="w3-col m9 w3-hide-small")
           ul(class="w3-navbar")
             li
               div.w3-dropdown-hover
@@ -51,7 +51,7 @@
     // 显示用户头像和路由信息
     div(style="padding:0px 20px")
       div(class="w3-row w3-margin-top")
-        div(class="w3-col s3")
+        div(class="w3-col s12 m3")
           div(class="w3-card-4")
             header(class="w3-light-grey w3-container")
               h1 PROFILE
@@ -63,7 +63,7 @@
                   img(src="./assets/github.png", style="width:25px")
               p Contact me: 15000900635
               p Maybe a front end engineer :)
-        div(class="w3-col s9 w3-padding-left")
+        div(class="w3-col s12 m9 router-area")
           router-view
 
     // loading动画
@@ -169,4 +169,10 @@ canvas {
     height: 100%;
     pointer-events: none;
 }
+.router-area
+  padding-left 16px
+
+@media only screen and (max-width:601px)
+  .router-area
+    padding-left 0px
 </style>

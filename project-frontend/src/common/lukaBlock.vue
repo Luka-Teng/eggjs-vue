@@ -1,6 +1,6 @@
 <template lang="jade">
   div.w3-row.luka-wrapper.w3-animate-left(:style="{ paddingTop: line_top + 'px', marginLeft: block_left + 'px' }")
-    div.w3-col.s10.luka-main.w3-card-2
+    div.w3-col.s12.m10.luka-main.w3-card-2
       div.luka-line(:style="{height: line_length + 'px', transform: `rotate(${-(deg + 90)}deg)`, left: line_left + 'px'}")
       div.s4.w3-padding.w3-teal.luka-header
         slot(name="header")
@@ -58,4 +58,7 @@ export default {
     top 1px
     width 2px
     background #666
+@media only screen and (max-width:601px)
+  .luka-wrapper
+    margin-left 0px !important
 </style>

@@ -1,5 +1,5 @@
 <template lang="jade">
-  div.w3-padding-left
+  div.home-area
     div.w3-container.w3-leftbar.w3-light-grey.w3-large.w3-animate-right.w3-card-2
       p EDUCATION & JOBS &nbsp;&nbsp;
         i.iconfont.icon-optinmonster.w3-large
@@ -89,4 +89,10 @@ export default {
   background-color: rgba(0,0,0,0)
 .w3-light-grey
   color #555 !important
+.home-area
+  padding-left 16px
+@media only screen and (max-width:601px)
+  .home-area
+    padding-left 0px
+    margin-top 20px
 </style>
