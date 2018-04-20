@@ -8,7 +8,7 @@
           div(class="w3-padding-12")
             i.iconfont.icon-optinmonster &nbsp;&nbsp;
             router-link(:to="{name: 'home'}") LUKA Personal site
-            a.pull-right.mobile-show(title="toggle", href="javascript:void(0)" @click="mobile_nav = !mobile_nav", class="w3-hover-text-black")
+            a#mobile-nav-btn.pull-right.mobile-show(title="toggle", href="javascript:void(0)" @click="mobile_nav = !mobile_nav", class="w3-hover-text-black")
               i.iconfont.icon-category
         div(class="w3-col m9 pc-show")
           ul(class="w3-navbar")
@@ -126,7 +126,13 @@ export default {
     }
   },
   mounted () {
-    // 来自evan you的点击特效 from: http://evanyou.me
+    document.addEventListener('click', () => {
+        this.mobile_nav = false
+    })
+    document.getElementById("mobile-nav-btn").addEventListener('click', (e) => {
+        e.stopPropagation()
+    })
+  // 来自evan you的点击特效 from: http://evanyou.me
 	/*
     document.addEventListener('touchmove', function (e) {
         e.preventDefault()
