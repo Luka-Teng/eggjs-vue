@@ -17,7 +17,7 @@
               i(class="iconfont icon-cry", style="font-size:18px") &nbsp;&nbsp;
               span DELETE
           div(class="w3-row w3-padding")
-            div(class="w3-col s4 m2 w3-padding-medium", v-for="tag in tags")
+            div(class="w3-col s6 m2 w3-padding-medium", v-for="tag in tags")
               input(class="w3-check", type="checkbox", :id="tag", :name="tag", :value="tag", v-model="selected_tags")
               label(class="w3-validate", :for="tag") {{tag}}
       div(class="w3-row")
