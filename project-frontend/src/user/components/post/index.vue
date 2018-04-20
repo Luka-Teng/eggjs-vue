@@ -10,10 +10,10 @@
             span.w3-xlarge {{post.title}}
             br
             span {{post.created_at | getDate}}
-          div.w3-col.s2(style="padding-top:10px; text-align:center" v-if="user_info")
+          div.w3-col.s2.no-padding-margin(style="padding-top:10px; text-align:center" v-if="user_info")
             a.w3-round-xxlarge.w3-btn.w3-red(href="javascript:void(0)", @click="onRemove(post.id)")
               i.icon-delete.iconfont
-            router-link.w3-round-xxlarge.w3-btn.w3-khaki.w3-margin-left(:to="`/editpost/${post.id}`")
+            router-link.w3-round-xxlarge.w3-btn.w3-khaki.w3-margin-left.no-margin(:to="`/editpost/${post.id}`")
               i.icon-edit.iconfont
       pagination(:curr_page="curr_page", :max_page="max_page", @paginationEvent="toPage")
 </template>

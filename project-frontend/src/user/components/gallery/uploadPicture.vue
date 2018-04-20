@@ -3,20 +3,20 @@
     div(class="w3-container w3-blue-grey top-round")
       h2 Upload Pictures
     div(class="w3-container w3-card-4 w3-padding-bottom")
-      div(class="w3-row w3-padding w3-margin")
+      div(class="w3-row w3-padding w3-margin no-padding-margin")
         ul(class="w3-ul w3-card-2 w3-margin-top")
           li(class="w3-padding-16")
             img(src="http://cdn.w3schools.wang/img_avatar3.png", class="w3-left w3-circle w3-margin-right", style="width:39px")
-            a(class="w3-round w3-btn w3-large w3-orange w3-text-white w3-margin-right", @click="upload")
+            a(class="w3-round w3-btn w3-orange w3-text-white w3-margin-right", @click="upload")
               i(class="iconfont icon-quanxuan", style="font-size:18px") &nbsp;&nbsp;
               span UPLOAD
           div(class="w3-row w3-padding")
-            div(class="w3-col s2 w3-padding-medium", v-for="tag in tags")
+            div(class="w3-col s4 m2 w3-padding-medium", v-for="tag in tags")
               input(class="w3-radio", type="radio", :id="tag", name="tag", :value="tag", v-model="selected_tag")
               label(class="w3-validate", :for="tag") {{tag}}
       div(class="w3-row w3-section-12 w3-padding w3-margin")
         div(id="drag-content", :class="[drag_area_class]")
-          div(class="drag-icon") Drag Files
+          div(class="drag-icon") +
       div(class="w3-row w3-section-12 w3-padding w3-margin")
         progress_bar(:percentage="percentage")
       div(class="w3-row")

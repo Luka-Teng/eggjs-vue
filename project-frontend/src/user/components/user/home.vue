@@ -94,5 +94,4 @@ export default {
 @media only screen and (max-width:601px)
   .home-area
     padding-left 0px
-    margin-top 20px
 </style>
