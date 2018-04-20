@@ -46,10 +46,11 @@ export default {
     color #555
     padding-left 24px
   pre
-    display inline-block
+    display block
     padding 10px
     margin-left 24px
     margin-bottom 0px
+    margin-top 0px
     background #555
     color #fff
     border-radius 3px
