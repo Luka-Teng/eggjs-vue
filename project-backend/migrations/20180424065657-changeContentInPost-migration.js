@@ -2,15 +2,15 @@
 
 module.exports = {
   up: async function (queryInterface, Sequelize) {
-    const { STRING, INTEGER, DATE } = Sequelize
+    const { TEXT } = Sequelize
     await queryInterface.changeColumn('post', 'content', {
-        type: STRING(65535),
+        type: TEXT,
         defaultValue: ''
     })
   },
 
   down: async function (queryInterface, Sequelize) {
-    const { STRING, INTEGER, DATE } = Sequelize
+    const { STRING } = Sequelize
     await queryInterface.changeColumn('post', 'content', {
         type: STRING(1000),
         defaultValue: ''
