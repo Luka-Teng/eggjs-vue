@@ -11,7 +11,7 @@ module.exports = app => {
       type: INTEGER
     },
     content: {
-      type: STRING(1000),
+      type: STRING(65535),
       defaultValue: ''
     },
     title: {
